@@ -1,0 +1,10 @@
+{
+  "name": "art-appreciation-portfolio",
+  "private": true,
+  "scripts": {
+    "dev": "npm --prefix portfolio run dev",
+    "build": "npm --prefix portfolio run build",
+    "lint": "npm --prefix portfolio run lint",
+    "preview": "npm --prefix portfolio run preview"
+  }
+}
