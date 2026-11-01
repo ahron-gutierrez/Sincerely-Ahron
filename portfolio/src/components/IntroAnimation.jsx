@@ -19,6 +19,7 @@ function IntroAnimation({ onComplete }) {
   const phaseRef = useRef("closed");
   const completed = useRef(false);
   const fallbackTimer = useRef(null);
+  const introClickCount = useRef(0);
 
   function changePhase(nextPhase) {
     phaseRef.current = nextPhase;
@@ -98,6 +99,11 @@ function IntroAnimation({ onComplete }) {
     }, 2200);
   }
 
+  function handleIntroClick() {
+    introClickCount.current += 1;
+    if (introClickCount.current >= 2) startOpening();
+  }
+
   function handleAnimationEnd(event) {
     const coverElement = event.currentTarget.querySelector(".intro-animation__cover");
     if (event.target !== coverElement) return;
@@ -112,6 +118,7 @@ function IntroAnimation({ onComplete }) {
   return createPortal(
     <div
       className={`intro-animation intro-animation--${phase}`}
+      onClick={handleIntroClick}
       onAnimationEnd={handleAnimationEnd}
     >
       <div
@@ -135,7 +142,7 @@ function IntroAnimation({ onComplete }) {
               <span>Ahron</span>
             </span>
             <span className="intro-animation__cover-note">
-              Discover me, sincerely.
+              
             </span>
             <span className="intro-animation__doodle intro-animation__doodle--star">✳</span>
             <span className="intro-animation__doodle intro-animation__doodle--flower">✿</span>

@@ -4,6 +4,12 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: "AhronHandwriting";
+  src: url("/fonts/FinalFontAhron-Regular.otf") format("opentype");
+  font-display: swap;
+}
+
 .home-shell {
   position: relative;
   display: flex;
@@ -1380,14 +1386,18 @@ code {
 .navbar-links a::after {
   position: absolute;
   right: 0;
-  bottom: calc(8px + 0.08em);
+  bottom: -3px;
   left: 0;
-  height: 1px;
-  background: var(--terracotta);
+  height: 12px;
+  background-color: #65734F;
   content: "";
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 180ms ease;
+  -webkit-mask: url("/illustrations/nav-underline.svg") center / 100% 100% no-repeat;
+  mask: url("/illustrations/nav-underline.svg") center / 100% 100% no-repeat;
+  clip-path: inset(0 100% 0 0);
+  opacity: 0;
+  transition:
+    clip-path 1050ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    opacity 450ms ease;
 }
 
 .navbar-links a:hover,
@@ -1397,7 +1407,8 @@ code {
 
 .navbar-links a:hover::after,
 .navbar-links a.active::after {
-  transform: scaleX(1);
+  clip-path: inset(0);
+  opacity: 1;
 }
 
 .home-shell {
@@ -1516,8 +1527,16 @@ code {
   margin: 15px 0 0;
   color: var(--ink);
   font-family: var(--serif);
-  font-size: clamp(15px, 1.4vw, 18px);
+  font-size: clamp(15px, 1.4vw, 15px);
   line-height: 1.65;
+}
+
+.intro-letter > p.intro-greeting {
+  margin-top: 0;
+}
+
+.intro-letter > p.intro-description {
+  margin-top: 8px;
 }
 
 .intro-letter .muted-copy {
@@ -1529,22 +1548,43 @@ code {
 
 .intro-letter .note-signoff {
   display: block;
-  margin: 17px 0 4px;
-  font-size: 16px;
+  width: min(160px, 58%);
+  margin: 14px -8px 2px auto;
+  text-align: right;
+  color: var(--dusty-blue);
+  font-family: "AhronHandwriting", "AhronNavbar", var(--handwriting);
+  font-size: 24px;
+  letter-spacing: 0.02em;
+  transform: skewX(-12deg);
+  transform-origin: right bottom;
 }
 
 .signature-slot {
-  display: grid;
-  width: min(210px, 100%);
-  min-height: 42px;
-  place-items: center start;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+  width: min(160px, 58%);
+  margin-left: auto;
+  margin-right: -8px;
   border-bottom: 1px solid rgba(76, 62, 47, 0.2);
+  padding-bottom: 2px;
+}
+
+.signature-slot .scanned-signature {
+  max-height: 30px;
+  width: auto;
+  max-width: 100px;
+  object-fit: contain;
+  margin-bottom: -8px;
 }
 
 .signature-slot .handwritten {
-  color: rgba(164, 94, 70, 0.75);
-  font-size: 14px;
-  transform: rotate(-4deg);
+  display: inline-block;
+  color: var(--dusty-blue);
+  font-family: "AhronHandwriting", "AhronNavbar", var(--handwriting);
+  font-size: 24px;
+  letter-spacing: 0.02em;
 }
 
 .mobile-intro-letter {
@@ -1653,7 +1693,8 @@ code {
   }
 
   .navbar-links a::after {
-    bottom: calc(5px + 0.08em);
+    bottom: -3px;
+    height: 8px;
   }
 
   .home-shell {
@@ -1744,19 +1785,28 @@ code {
   }
 
   .mobile-intro-letter .intro-letter .note-signoff {
-    display: inline-block;
-    margin: 9px 10px 0 0;
+    display: block;
+    margin: 9px -8px 0 auto;
+    font-size: 20px;
+    text-align: right;
   }
 
   .signature-slot {
-    display: inline-grid;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
     width: min(160px, 58%);
     min-height: 31px;
-    vertical-align: bottom;
+    margin-left: auto;
+  }
+
+  .signature-slot .scanned-signature {
+    max-height: 36px;
+    margin-bottom: -6px;
   }
 
   .signature-slot .handwritten {
-    font-size: 11px;
+    font-size: 18px;
   }
 
   .contents-list {
@@ -1895,14 +1945,14 @@ code {
 
 .home-links a {
   display: grid;
-  grid-template-columns: 35px minmax(0, 1fr) 24px;
-  align-items: baseline;
+  grid-template-columns: 35px minmax(0, 1fr) 28px;
+  align-items: center;
   gap: 12px;
   padding: 14px 0;
   border-top: 1px solid var(--rule);
   color: var(--ink);
   font-family: var(--serif);
-  font-size: 17px;
+  font-size: 14px;
   text-decoration: none;
 }
 
@@ -1912,9 +1962,11 @@ code {
   font-size: 10px;
 }
 
-.home-links a > span:last-child {
-  color: var(--ink-soft);
-  text-align: right;
+.home-links .home-link-icon {
+  display: block;
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
 }
 
 .home-links a:hover {
@@ -1956,73 +2008,18 @@ code {
 
 .site-footer {
   display: flex;
-  width: 100%;
-  justify-content: center;
-  margin: 0;
-  padding: 13px 16px;
-  border-top: 1px solid rgba(78, 126, 145, 0.24);
-  background: rgba(230, 239, 239, 0.78);
-  color: var(--ink-soft);
+  width: min(1120px, calc(100% - 64px));
+  justify-content: space-between;
+  gap: 20px;
+  margin: 0 auto;
+  padding: 0 0 18px;
+  color: #827667;
   font-size: 11px;
 }
 
-.site-footer small {
-  font-size: inherit;
-}
-
-.guestbook {
-  width: 100%;
-  padding: clamp(40px, 7vw, 72px) 20px;
-  border-top: 1px solid rgba(78, 126, 145, 0.16);
-  background: rgba(248, 245, 232, 0.9);
-}
-
-.guestbook__inner {
-  width: min(720px, 100%);
-  min-width: 0;
-  margin: 0 auto;
-  text-align: center;
-}
-
-.guestbook__inner h2 {
-  margin: 0;
-  color: var(--ink);
-  font-family: var(--serif);
-  font-size: clamp(28px, 4vw, 36px);
-  font-weight: 400;
-  line-height: 1.2;
-}
-
-.guestbook__intro {
-  max-width: 540px;
-  margin: 14px auto 0;
-  color: var(--ink-soft);
-  font-family: var(--serif);
+.site-footer .handwritten {
   font-size: 15px;
-  line-height: 1.7;
-}
-
-.guestbook__comments {
-  width: 100%;
-  min-width: 0;
-  margin-top: clamp(24px, 4vw, 36px);
-  overflow: hidden;
-  text-align: left;
-}
-
-.guestbook__comments giscus-widget {
-  display: block;
-  width: 100%;
-  max-width: 100%;
-  min-width: 0;
-}
-
-.guestbook__setup-note {
-  margin: 0;
-  color: var(--faded-sage);
-  font-family: var(--handwriting);
-  font-size: 14px;
-  text-align: center;
+  transform: rotate(-3deg);
 }
 
 .archive-list {
@@ -2099,6 +2096,12 @@ code {
 }
 
 .archive-process .appendix-section {
+  max-height: none;
+  overflow: visible;
+  padding-right: 0;
+}
+
+.diary-spread--appendices .appendix-section {
   max-height: none;
   overflow: visible;
   padding-right: 0;
@@ -2193,16 +2196,21 @@ code {
   }
 
   .site-footer {
-    padding: 12px;
+    width: calc(100% - 24px);
+    padding-bottom: 14px;
     font-size: 10px;
+  }
+
+  .site-footer .handwritten {
+    font-size: 13px;
   }
 }
 
 .diary-spread {
   --page-accent: var(--dusty-blue);
-  --page-wash: #e6f0ed;
+  --page-wash: #e4eff0;
   --page-rule: rgba(78, 126, 145, 0.13);
-  border-color: color-mix(in srgb, var(--page-accent) 34%, #a49775);
+  border-color: color-mix(in srgb, var(--dusty-blue) 34%, #a49775);
   border-radius: 7px 10px 6px 8px;
   background-color: var(--paper-light);
   box-shadow:
@@ -2217,21 +2225,20 @@ code {
   --page-rule: rgba(78, 126, 145, 0.14);
 }
 
-.diary-spread--works {
+.diary-spread--part-i {
   --page-accent: var(--sunflower);
-  --page-wash: #f3edcf;
   --page-rule: rgba(151, 119, 43, 0.16);
 }
 
+.diary-spread--reflection,
 .diary-spread--about {
   --page-accent: var(--faded-sage);
-  --page-wash: #e9efdf;
   --page-rule: rgba(97, 121, 79, 0.15);
 }
 
-.diary-spread--archive {
+.diary-spread--part-ii,
+.diary-spread--appendices {
   --page-accent: var(--terracotta);
-  --page-wash: #f2ead8;
   --page-rule: rgba(156, 104, 73, 0.14);
 }
 
@@ -2270,6 +2277,11 @@ code {
   text-underline-offset: 7px;
 }
 
+.diary-spread--home .page-title {
+  margin-bottom: 4px;
+  font-family: "AhronNavbar", var(--serif);
+}
+
 .diary-spread .page-number {
   color: color-mix(in srgb, var(--page-accent) 76%, #62594f);
 }
@@ -2285,74 +2297,74 @@ code {
   color: var(--dusty-blue);
 }
 
-.diary-spread--about .reflection-greeting,
-.diary-spread--about .reflection-signoff {
+.diary-spread--reflection .reflection-greeting,
+.diary-spread--reflection .reflection-signoff {
   color: var(--faded-sage);
 }
 
-.diary-spread--about .about-reflection {
+.diary-spread--reflection .about-reflection {
   border-top-color: color-mix(in srgb, var(--faded-sage) 34%, transparent);
 }
 
-.diary-spread--about .reflection-input {
+.diary-spread--reflection .reflection-input {
   border-color: color-mix(in srgb, var(--faded-sage) 38%, #e1d7c6);
   background-color: #fbf8e9;
 }
 
-.diary-spread--works .notice-note {
+.diary-spread--part-i .notice-note {
   border-left-color: var(--sunflower);
   background-color: #f5f0d8;
 }
 
-.diary-spread--works .artwork-thumb {
+.diary-spread--part-i .artwork-thumb {
   border-color: rgba(106, 112, 76, 0.22);
 }
 
-.diary-spread--works .artwork-thumb--0 {
+.diary-spread--part-i .artwork-thumb--0 {
   background:
     repeating-linear-gradient(0deg, transparent 0 18px, rgba(78, 126, 145, 0.08) 19px 20px),
     #e6eff0;
 }
 
-.diary-spread--works .artwork-thumb--1 {
+.diary-spread--part-i .artwork-thumb--1 {
   background:
     repeating-linear-gradient(135deg, transparent 0 15px, rgba(151, 119, 43, 0.1) 16px 17px),
     #f2edda;
 }
 
-.diary-spread--works .artwork-thumb--2 {
+.diary-spread--part-i .artwork-thumb--2 {
   background:
     repeating-linear-gradient(0deg, transparent 0 22px, rgba(97, 121, 79, 0.09) 23px 24px),
     #e9efe1;
 }
 
-.diary-spread--works .artwork-number {
+.diary-spread--part-i .artwork-number {
   color: var(--sunflower);
 }
 
-.diary-spread--works .thumb-mark {
+.diary-spread--part-i .thumb-mark {
   color: #53674f;
 }
 
-.diary-spread--archive .archive-entry:nth-child(3n + 1) .archive-art {
+.diary-spread--part-ii .archive-entry:nth-child(3n + 1) .archive-art {
   background:
     repeating-linear-gradient(0deg, transparent 0 31px, rgba(78, 126, 145, 0.08) 32px 33px),
     #e6eff0;
 }
 
-.diary-spread--archive .archive-entry:nth-child(3n + 2) .archive-art {
+.diary-spread--part-ii .archive-entry:nth-child(3n + 2) .archive-art {
   background:
     repeating-linear-gradient(135deg, transparent 0 17px, rgba(151, 119, 43, 0.09) 18px 19px),
     #f2edda;
 }
 
-.diary-spread--archive .archive-entry:nth-child(3n) .archive-art {
+.diary-spread--part-ii .archive-entry:nth-child(3n) .archive-art {
   background:
     repeating-linear-gradient(0deg, transparent 0 23px, rgba(97, 121, 79, 0.09) 24px 25px),
     #e9efe1;
 }
 
-.diary-spread--archive .archive-art::before {
+.diary-spread--part-ii .archive-art::before {
   position: absolute;
   top: 10px;
   left: 50%;
@@ -2363,17 +2375,17 @@ code {
   transform: translateX(-50%) rotate(-3deg);
 }
 
-.diary-spread--archive .archive-entry:nth-child(3n + 2) .archive-art::before {
+.diary-spread--part-ii .archive-entry:nth-child(3n + 2) .archive-art::before {
   background: rgba(216, 184, 79, 0.55);
   transform: translateX(-50%) rotate(2deg);
 }
 
-.diary-spread--archive .archive-entry:nth-child(3n) .archive-art::before {
+.diary-spread--part-ii .archive-entry:nth-child(3n) .archive-art::before {
   background: rgba(104, 124, 77, 0.32);
   transform: translateX(-50%) rotate(-1deg);
 }
 
-.diary-spread--archive .archive-process {
+.diary-spread--part-ii .archive-process {
   padding: 18px;
   border: 1px dashed rgba(164, 94, 70, 0.36);
   background: rgba(242, 231, 218, 0.55);
@@ -2392,11 +2404,6 @@ code {
   color: #f3dfaa;
 }
 
-.navbar-links a.active::after,
-.navbar-links a:hover::after {
-  background: var(--sunflower);
-}
-
 .site-footer .handwritten {
   color: var(--faded-sage);
 }
@@ -2413,5 +2420,72 @@ code {
   .diary-spread .page-title {
     text-decoration: none;
     border-bottom: 1px solid rgba(88, 116, 135, 0.35);
+  }
+}
+
+@media (max-width: 640px) {
+  .home-shell--front:not(.home-shell--intro) {
+    height: auto;
+    min-height: calc(100svh - var(--nav-height));
+  }
+
+  .home-shell--front .diary-stage {
+    width: 100%;
+  }
+
+  .home-shell--front .diary-spread {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    aspect-ratio: auto;
+    overflow: hidden;
+  }
+
+  .home-shell--front .journal-page {
+    height: auto;
+    min-height: 0;
+    padding: clamp(20px, 6vw, 30px);
+  }
+
+  .home-shell--front .journal-page--notes {
+    display: block;
+    padding-bottom: 20px;
+  }
+
+  .home-shell--front .journal-page--content {
+    padding-top: 20px;
+  }
+
+  .home-shell--front .page-title {
+    margin-bottom: 4px;
+    font-size: clamp(27px, 8vw, 36px);
+  }
+
+  .home-shell--front .page-note-copy {
+    font-size: clamp(14px, 3.8vw, 16px);
+  }
+
+  .home-shell--front .intro-letter {
+    width: 100%;
+    max-width: none;
+  }
+
+  .home-shell--front .intro-letter > p:not(.muted-copy) {
+    font-size: clamp(14px, 3.8vw, 16px);
+  }
+
+  .home-shell--front .intro-letter .muted-copy {
+    font-size: clamp(11px, 3vw, 12px);
+  }
+
+  .home-shell--front .home-welcome {
+    min-height: 0;
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 320px) {
+  html,
+  body {
+    min-width: 0;
   }
 }
