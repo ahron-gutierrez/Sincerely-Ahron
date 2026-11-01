@@ -10,8 +10,8 @@ function Works() {
   return (
     <main className="site-page-shell">
       <DiarySpread
-        sectionLabel="works"
-        title="The collection"
+        sectionLabel="part-i"
+        title="My Art Appreciation Journey"
         leftNotes={(
           <p>
             Every class exercise leaves a trace. These pages hold the individual and shared

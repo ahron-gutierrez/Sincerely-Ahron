@@ -32,17 +32,4 @@ The site uses readable serif and sans-serif fallbacks until your own handwriting
 - Put transparent scans in `public/handwriting/` and reference them in JSX as `/handwriting/signature.png`. Reusable classes include `.handwriting-image`, `.scanned-signature`, `.scanned-doodle`, and `.handwritten-annotation`.
 - Keep scans transparent PNG or SVG files; use `alt` text for meaningful marks and empty `alt` text for purely decorative marks.
 
-## Guestbook setup
-
-The guestbook uses `@giscus/react` and GitHub Discussions. Its settings live in
-`src/config/giscus.js`; the repository is set to `ahron-gutierrez/art-appreciation-portfolio`.
-After generating the configuration at <https://giscus.app/>, fill in `repoId`,
-`category`, and `categoryId` with the exact generated values. The guestbook uses the
-current pathname for discussion mapping and enables reactions.
-
-Before it can work on a deployed site, the GitHub repository must be public, Discussions
-must be enabled, and the Giscus GitHub App must be installed for that repository. Do not
-add GitHub credentials or tokens to the frontend. Until the four configuration values
-are complete, the guestbook displays a setup note instead of a local-only comment form.
-
 Validate changes with `npm run lint` and `npm run build`.

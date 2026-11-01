@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { BrowserRouter, Navigate, NavLink, Route, Routes, useLocation } from "react-router-dom";
 
-import Archive from "./pages/Archive";
+import Appendices from "./pages/Appendices";
 import About from "./pages/About";
 import Home from "./pages/Home";
+import PartII from "./pages/PartII";
+import Reflection from "./pages/Reflection";
 import Works from "./pages/Works";
-import Guestbook from "./components/Guestbook";
 import IntroAnimation from "./components/IntroAnimation";
 import "./styles/App.css";
 
@@ -28,10 +29,12 @@ function PortfolioApp() {
           <img src="/website-logo.png" alt="" />
         </NavLink>
         <nav className="navbar-links" aria-label="Main navigation">
-          <NavLink to="/" end>home</NavLink>
-          <NavLink to="/works">works</NavLink>
-          <NavLink to="/about">about</NavLink>
-          <NavLink to="/archive">archive</NavLink>
+          <NavLink to="/" end>Home</NavLink>
+          <NavLink to="/part-i">Part I</NavLink>
+          <NavLink to="/part-ii">Part II</NavLink>
+          <NavLink to="/reflection">Reflection</NavLink>
+          <NavLink to="/appendices">Appendices</NavLink>
+          <NavLink to="/about">About</NavLink>
         </nav>
       </header>
       <div
@@ -42,22 +45,28 @@ function PortfolioApp() {
       >
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/works" element={<Works />} />
+          <Route path="/part-i" element={<Works />} />
+          <Route path="/part-ii" element={<PartII />} />
+          <Route path="/reflection" element={<Reflection />} />
+          <Route path="/appendices" element={<Appendices />} />
           <Route path="/about" element={<About />} />
-          <Route path="/archive" element={<Archive />} />
-          <Route path="/collection" element={<Navigate to="/works" replace />} />
-          <Route path="/experiments" element={<Navigate to="/archive" replace />} />
+          <Route path="/works" element={<Navigate to="/part-i" replace />} />
+          <Route path="/archive" element={<Navigate to="/part-ii" replace />} />
+          <Route path="/collection" element={<Navigate to="/part-i" replace />} />
+          <Route path="/experiments" element={<Navigate to="/part-ii" replace />} />
           <Route path="/next-chapter" element={<Navigate to="/about" replace />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </div>
       {!introComplete && <IntroAnimation onComplete={completeIntro} />}
-      {introComplete && <Guestbook />}
-      {introComplete && (
-        <footer className="site-footer">
-          <small>© 2026 AHRchives. All rights reserved.</small>
-        </footer>
-      )}
+      <footer
+        className="site-footer"
+        aria-hidden={!introComplete}
+        inert={!introComplete}
+      >
+        <span>Made slowly, with room to grow.</span>
+        <span className="handwritten">sincerely, ahron</span>
+      </footer>
     </div>
   );
 }

@@ -29,4 +29,4 @@ export const explorations = [
 
 export const reflection = "";
 
-export const signatureImage = "";
+export const signatureImage = "/signature.png";

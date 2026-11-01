@@ -15,7 +15,7 @@
   position: fixed;
   z-index: 100;
   inset: 0;
-  pointer-events: none;
+  pointer-events: auto;
 }
 
 .intro-animation__book {
@@ -157,7 +157,7 @@
   margin-top: 3px;
   color: #f0d477;
   font-family: var(--handwriting);
-  font-size: 0.83em;
+  font-size: 1.3em;
   font-style: italic;
   letter-spacing: -0.035em;
 }
@@ -209,7 +209,7 @@
   color: var(--ink);
   cursor: url("/cursors/green-crayon.cur") 12 8, pointer;
   font-family: var(--handwriting);
-  font-size: 16px;
+  font-size: 20px;
   pointer-events: auto;
   transform: translateX(-50%);
   transition:

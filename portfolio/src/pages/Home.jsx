@@ -5,21 +5,25 @@ import { signatureImage } from "../data/portfolio";
 function Home() {
   const letter = (
     <div className="intro-letter">
-      <span className="handwritten note-salutation">Dear reader,</span>
-      <p>
-        I’m Ahron. This is a little record of my Art Appreciation work, the forms I’m
-        still learning to try, and the person I’m slowly becoming.
+      <p className="intro-greeting">I'm Ahron.</p>
+      <p className="intro-description">
+        This Portfolio is a little collection of my artistic journey.
       </p>
       <p className="muted-copy">
-        Some pages are waiting for the real work and documentation to find their way here.
+        It's like a tribute to my younger self.
       </p>
-      <span className="handwritten note-signoff">with care,</span>
-      <div className="signature-slot" aria-label="Space reserved for Ahron's scanned handwritten signature">
-        {signatureImage ? (
+       <p className="muted-copy">
+        To the little kid who was never afraid to create things that weren't always pretty or perfect.
+      </p>
+      <p className="muted-copy">
+        And… I hope that little kid is still somewhere in me.
+      </p>
+      <span className="handwritten note-signoff">Sincerely,</span>
+      <div className="signature-slot" aria-label="Ahron's handwritten signature">
+        {signatureImage && (
           <img className="handwriting-image scanned-signature" src={signatureImage} alt="Ahron's handwritten signature" />
-        ) : (
-          <span className="handwritten">your handwritten signature</span>
         )}
+        <span className="handwritten">Ahron</span>
       </div>
     </div>
   );
@@ -30,21 +34,23 @@ function Home() {
       <div className="diary-stage diary-stage--open">
         <DiarySpread
           sectionLabel="home"
-          title="A note before you begin"
+          title="Dear Reader,"
           leftNotes={letter}
           pageNumber={1}
         >
           <div className="home-welcome">
-            <p className="eyebrow">A small guide to what’s inside</p>
+            <p className="eyebrow">Table of Contents</p>
             <p className="content-intro">
-              A growing collection of class work, experiments, and notes on becoming.
+              What's inside my portfolio?
             </p>
             <nav className="home-links" aria-label="Explore the portfolio">
-              <Link to="/works"><span>01</span> Works <span aria-hidden="true">↗</span></Link>
-              <Link to="/about"><span>02</span> About <span aria-hidden="true">↗</span></Link>
-              <Link to="/archive"><span>03</span> Archive <span aria-hidden="true">↗</span></Link>
+              <Link to="/part-i"><span>01 —</span> Part I: My Art Appreciation Journey <img className="home-link-icon" src="/icons/toc-paper-plane.png" alt="" aria-hidden="true" /></Link>
+              <Link to="/part-ii"><span>02 —</span> Part II: My Artistic Exploration <img className="home-link-icon" src="/icons/toc-paper-plane.png" alt="" aria-hidden="true" /></Link>
+              <Link to="/reflection"><span>03 —</span> Reflection <img className="home-link-icon" src="/icons/toc-paper-plane.png" alt="" aria-hidden="true" /></Link>
+              <Link to="/appendices"><span>04 —</span> Appendices <img className="home-link-icon" src="/icons/toc-paper-plane.png" alt="" aria-hidden="true" /></Link>
+              <Link to="/about"><span>05 —</span> About Me <img className="home-link-icon" src="/icons/toc-paper-plane.png" alt="" aria-hidden="true" /></Link>
             </nav>
-            <p className="handwritten home-signoff">sincerely,<br />ahron</p>
+
           </div>
         </DiarySpread>
       </div>

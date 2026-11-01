@@ -1,24 +1,23 @@
 import { useState } from "react";
-import AppendixSection from "../components/AppendixSection";
 import ArtworkViewer from "../components/ArtworkViewer";
 import DiarySpread from "../components/DiarySpread";
 import { explorations } from "../data/portfolio";
 
-function Archive() {
+function PartII() {
   const [selectedArtwork, setSelectedArtwork] = useState(null);
 
   return (
     <main className="site-page-shell">
       <DiarySpread
-        sectionLabel="archive"
-        title="Experiments & in-betweens"
+        sectionLabel="part-ii"
+        title="My Artistic Exploration"
         leftNotes={(
           <p>
             Drafts and in-between moments matter, too. Here are the new forms, sketches,
             and process notes that helped shape the work.
           </p>
         )}
-        pageNumber={5}
+        pageNumber={3}
       >
         <div className="archive-list">
           {explorations.map((work, index) => (
@@ -46,11 +45,6 @@ function Archive() {
               </div>
             </article>
           ))}
-          <section className="archive-process">
-            <p className="eyebrow">Process notes</p>
-            <h2>Evidence of becoming</h2>
-            <AppendixSection explorations={explorations} />
-          </section>
         </div>
       </DiarySpread>
       <ArtworkViewer artwork={selectedArtwork} onClose={() => setSelectedArtwork(null)} />
@@ -58,4 +52,4 @@ function Archive() {
   );
 }
 
-export default Archive;
+export default PartII;
