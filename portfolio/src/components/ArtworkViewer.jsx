@@ -1,13 +1,32 @@
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 function ArtworkViewer({ artwork, onClose }) {
   const closeButton = useRef(null);
+  const pointerStart = useRef(null);
+  const pointerOrigin = useRef(null);
+  const pointerMoved = useRef(false);
+  const [pan, setPan] = useState({ x: 0, y: 0 });
+  const [dragging, setDragging] = useState(false);
+
+  const resetView = useCallback(() => {
+    setPan({ x: 0, y: 0 });
+  }, []);
+
+  const closeViewer = useCallback(() => {
+    resetView();
+    onClose();
+  }, [onClose, resetView]);
 
   useEffect(() => {
+    if (!artwork?.image) return undefined;
+
     const previouslyFocused = document.activeElement;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
     closeButton.current?.focus();
+
     function onKeyDown(event) {
-      if (event.key === "Escape") onClose();
+      if (event.key === "Escape") closeViewer();
       if (event.key === "Tab") {
         event.preventDefault();
         closeButton.current?.focus();
@@ -17,46 +36,81 @@ function ArtworkViewer({ artwork, onClose }) {
     window.addEventListener("keydown", onKeyDown);
     return () => {
       window.removeEventListener("keydown", onKeyDown);
+      document.body.style.overflow = previousOverflow;
       if (previouslyFocused instanceof HTMLElement) previouslyFocused.focus();
     };
-  }, [onClose]);
+  }, [artwork, closeViewer, resetView]);
 
-  if (!artwork) return null;
+  if (!artwork?.image) return null;
+
+  function onPointerDown(event) {
+    event.preventDefault();
+    event.currentTarget.setPointerCapture(event.pointerId);
+    pointerStart.current = { x: event.clientX, y: event.clientY };
+    pointerOrigin.current = { x: event.clientX, y: event.clientY };
+    pointerMoved.current = false;
+    setDragging(true);
+  }
+
+  function onPointerMove(event) {
+    if (!pointerStart.current) return;
+    const deltaX = event.clientX - pointerStart.current.x;
+    const deltaY = event.clientY - pointerStart.current.y;
+    if (
+      Math.abs(event.clientX - pointerOrigin.current.x) > 3
+      || Math.abs(event.clientY - pointerOrigin.current.y) > 3
+    ) {
+      pointerMoved.current = true;
+    }
+    setPan((current) => ({ x: current.x + deltaX, y: current.y + deltaY }));
+    pointerStart.current = { x: event.clientX, y: event.clientY };
+  }
+
+  function onPointerUp() {
+    pointerStart.current = null;
+    pointerOrigin.current = null;
+    setDragging(false);
+  }
 
   return (
-    <div className="viewer-backdrop" onMouseDown={(event) => {
-      if (event.target === event.currentTarget) onClose();
-    }}>
-      <section
-        className="artwork-viewer"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="viewer-title"
-      >
+    <div
+      className="viewer-backdrop"
+      onClick={(event) => {
+        if (event.target === event.currentTarget) closeViewer();
+      }}
+    >
+      <section className="artwork-viewer" role="dialog" aria-modal="true" aria-label="Artwork image viewer">
         <button
           ref={closeButton}
           className="viewer-close"
           type="button"
-          onClick={onClose}
-          aria-label="Close artwork preview"
+          onClick={closeViewer}
+          aria-label="Close image viewer"
         >
           ×
         </button>
-        {artwork.image ? (
-          <img className="viewer-image" src={artwork.image} alt={artwork.alt || artwork.title} />
-        ) : (
-          <div className="viewer-placeholder" role="img" aria-label="Artwork image not added">
-            <span className="handwritten">your work goes here</span>
-            <span>Artwork image not added yet</span>
-          </div>
-        )}
-        <div className="viewer-caption">
-          <p className="eyebrow">Artwork note</p>
-          <h2 id="viewer-title">{artwork.title}</h2>
-          <p>{artwork.medium || "Medium or format not documented yet."}</p>
-          <p>{artwork.authorship || "Authorship or collaborators not documented yet."}</p>
-          {artwork.description && <p>{artwork.description}</p>}
+        <div
+          className="viewer-stage"
+          onClick={(event) => {
+            if (event.target === event.currentTarget) closeViewer();
+          }}
+        >
+          <img
+            className={`viewer-image${dragging ? " viewer-image--dragging" : ""}`}
+            src={artwork.image}
+            alt={artwork.alt || ""}
+            draggable="false"
+            onPointerDown={onPointerDown}
+            onPointerMove={onPointerMove}
+            onPointerUp={onPointerUp}
+            onPointerCancel={onPointerUp}
+            onClick={() => {
+              if (!pointerMoved.current) closeViewer();
+            }}
+            style={{ transform: `translate(${pan.x}px, ${pan.y}px)` }}
+          />
         </div>
+        <p className="viewer-return-note" aria-hidden="true">Click anywhere to return</p>
       </section>
     </div>
   );

@@ -5,9 +5,10 @@ import { signatureImage } from "../data/portfolio";
 function Home() {
   const letter = (
     <div className="intro-letter">
+      <p></p>
       <p className="intro-greeting">I'm Ahron.</p>
       <p className="intro-description">
-        This Portfolio is a little collection of my artistic journey.
+        This portfolio is a little collection of my artistic journey.
       </p>
       <p className="muted-copy">
         It's like a tribute to my younger self.

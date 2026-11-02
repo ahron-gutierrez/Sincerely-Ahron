@@ -5,7 +5,10 @@ A React + Vite diary portfolio. Run it from this directory with `npm run dev`.
 ## Pages
 
 - `/` is the diary welcome page and plays its opening animation once per browser session.
-- `/works` holds the Art Appreciation collection.
+- `/part-i` is the Art Appreciation collection; each work has a direct page at
+  `/part-i/<artwork-id>`.
+- `/part-ii` is the creative exploration index; Pixel Art, Crochet, Kalimba, and Photography
+  each have a direct page at `/part-ii/<exploration-id>`.
 - `/about` introduces Ahron and includes the private reflection space.
 - `/archive` holds experiments and process evidence.
 
@@ -16,9 +19,14 @@ corresponding pages.
 
 Edit `src/data/portfolio.js`:
 
-- Add every Art Appreciation output to `courseWorks`. Each entry can include `id`, `title`, `medium`, `authorship`, `description`, `image`, and `alt`. Use `authorship` to state your own role and the collaborators/group accurately.
-- Replace the three `explorations` placeholders with your own `title`, `medium`, `description`, and `image`.
-- Add authentic process documentation to an exploration's `process` array. Each evidence item can include `src`, `alt`, `caption`, and `date`.
+- Edit the eight Art Appreciation entries in `courseWorks`. Add an image URL to `image`,
+  descriptive alt text, medium, description, inspiration, process, and reflection. Collaborative
+  entries also have editable `groupMembers`, `projectContext`, and `contribution` fields.
+- Add authentic process images to an entry's `processImages` array with `src`, `alt`, and an
+  optional `caption`.
+- Add authentic details to each `explorations` entry: `introduction`, `description`, `inspiration`,
+  `process`, and `reflection`. Add actual output images to `images` (`src`, `alt`, and an optional
+  `caption`), process documentation to `processImages`, and an optional audio file URL to `audio`.
 - Add your final reflection as a string in `reflection`. Until then, the About page keeps an editable, unsaved writing space.
 - Add your signature scan under `public/handwriting/` and set `signatureImage` to its public URL (for example, `/handwriting/signature.png`).
 
