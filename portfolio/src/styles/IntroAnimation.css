@@ -207,7 +207,7 @@
   background: rgba(244, 238, 223, 0.94);
   box-shadow: 0 4px 14px rgba(49, 36, 22, 0.1);
   color: var(--ink);
-  cursor: url("/cursors/green-crayon.cur") 12 8, pointer;
+  cursor: url("/cursors/yellow-crayon.cur") 12 8, pointer;
   font-family: var(--handwriting);
   font-size: 20px;
   pointer-events: auto;

@@ -7,19 +7,24 @@ import Home from "./pages/Home";
 import PartII from "./pages/PartII";
 import Reflection from "./pages/Reflection";
 import Works from "./pages/Works";
+import ArtworkDetail from "./pages/ArtworkDetail";
+import ExplorationDetail from "./pages/ExplorationDetail";
 import IntroAnimation from "./components/IntroAnimation";
+import ScrollToTopButton from "./components/ScrollToTopButton";
 import "./styles/App.css";
 
 function PortfolioApp() {
   const location = useLocation();
   const [introComplete, setIntroComplete] = useState(() => location.pathname !== "/");
+  const isPartI = location.pathname.startsWith("/part-i");
+  const isArtworkDetail = /^\/part-[12]\//.test(location.pathname);
 
   function completeIntro() {
     setIntroComplete(true);
   }
 
   return (
-    <div className={`site-frame ${introComplete ? "site-frame--ready" : "site-frame--intro"}`}>
+    <div className={`site-frame ${introComplete ? "site-frame--ready" : "site-frame--intro"}${isPartI ? " site-frame--part-i" : ""}${isArtworkDetail ? " site-frame--detail" : ""}`}>
       <header
         className="site-navbar"
         aria-hidden={!introComplete}
@@ -45,7 +50,9 @@ function PortfolioApp() {
       >
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/part-i/:artworkId" element={<ArtworkDetail />} />
           <Route path="/part-i" element={<Works />} />
+          <Route path="/part-ii/:explorationId" element={<ExplorationDetail />} />
           <Route path="/part-ii" element={<PartII />} />
           <Route path="/reflection" element={<Reflection />} />
           <Route path="/appendices" element={<Appendices />} />
@@ -59,6 +66,7 @@ function PortfolioApp() {
         </Routes>
       </div>
       {!introComplete && <IntroAnimation onComplete={completeIntro} />}
+      {introComplete && <ScrollToTopButton routeKey={location.pathname} />}
       <footer
         className="site-footer"
         aria-hidden={!introComplete}
