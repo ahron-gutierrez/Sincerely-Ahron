@@ -14,7 +14,6 @@ function PartII() {
         <div className="exploration-index">
           <header className="exploration-index-heading">
             <h2>My Creative Explorations</h2>
-            <span className="handwritten">Four ways of making, learning, and noticing.</span>
           </header>
           <div className="exploration-card-grid">
             {explorations.map((work, index) => (
@@ -36,8 +35,10 @@ function PartII() {
                   <span className="thumb-open" aria-hidden="true">↗</span>
                 </span>
                 <span className="exploration-card-title">{work.title}</span>
-                <span className="exploration-card-medium">{work.medium}</span>
-                <span className="exploration-card-intro">{work.introduction}</span>
+                <span className="exploration-card-medium">{work.subtitle || work.medium}</span>
+                {work.introduction && !work.introduction.startsWith("Add ") && (
+                  <span className="exploration-card-intro">{work.introduction}</span>
+                )}
               </Link>
             ))}
           </div>

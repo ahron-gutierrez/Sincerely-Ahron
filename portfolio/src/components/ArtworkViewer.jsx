@@ -7,6 +7,7 @@ function ArtworkViewer({ artwork, onClose }) {
   const pointerMoved = useRef(false);
   const [pan, setPan] = useState({ x: 0, y: 0 });
   const [dragging, setDragging] = useState(false);
+  const isAnimatedImage = /\.gif(?:[?#]|$)/i.test(artwork?.image || "");
 
   const resetView = useCallback(() => {
     setPan({ x: 0, y: 0 });
@@ -105,7 +106,7 @@ function ArtworkViewer({ artwork, onClose }) {
             onPointerUp={onPointerUp}
             onPointerCancel={onPointerUp}
             onClick={() => {
-              if (!pointerMoved.current) closeViewer();
+              if (!pointerMoved.current && !isAnimatedImage) closeViewer();
             }}
             style={{ transform: `translate(${pan.x}px, ${pan.y}px)` }}
           />

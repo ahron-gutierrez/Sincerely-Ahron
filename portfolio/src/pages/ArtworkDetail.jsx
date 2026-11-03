@@ -16,8 +16,24 @@ function ArtworkDetail() {
   const previousArtwork = courseWorks[currentIndex - 1];
   const nextArtwork = courseWorks[currentIndex + 1];
 
+  const inspirationProcessText = [artwork.inspiration, artwork.process]
+    .filter(Boolean)
+    .filter((t) => !t.startsWith("Add "))
+    .join("\n\n");
+
+  const hasStoryContent = !isIndividualWork && (
+    Boolean(artwork.poemTitles) ||
+    Boolean(
+      !artwork.descriptionInHeader &&
+      artwork.description &&
+      !artwork.description.startsWith("Add ")
+    ) ||
+    Boolean(inspirationProcessText) ||
+    Boolean(artwork.reflection && !artwork.reflection.startsWith("Add "))
+  );
+
   return (
-    <main className={`artwork-detail-shell artwork-detail-shell--${artwork.layout} part-i-artwork-detail`}>
+    <main className={`artwork-detail-shell artwork-detail-shell--${artwork.layout}${artwork.fitContent ? " artwork-detail-shell--fit-content" : ""} part-i-artwork-detail`}>
       <article className="artwork-journal-page">
         <div className="artwork-detail-topline">
           <Link className="journal-back-link" to="/part-i">← Back to Part I</Link>
@@ -25,7 +41,16 @@ function ArtworkDetail() {
         </div>
 
         <div className="artwork-detail-layout">
-          {artwork.image ? (
+          {artwork.videoEmbedUrl ? (
+            <div className="artwork-detail-image artwork-detail-video">
+              <iframe
+                src={artwork.videoEmbedUrl}
+                title={`${artwork.title} video`}
+                allow="autoplay; encrypted-media; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
+          ) : artwork.image ? (
             <button
               className="artwork-detail-image"
               type="button"
@@ -45,12 +70,25 @@ function ArtworkDetail() {
           <div className="artwork-detail-copy">
             <header className="artwork-detail-header">
               <h1>{artwork.title}</h1>
-              {isIndividualWork && (
+              {artwork.subtitle && (
+                <p className="artwork-detail-story-subtitle">
+                  {artwork.subtitle.split(/(\(\d{4}\))/).map((part, index) =>
+                    /^\(\d{4}\)$/.test(part)
+                      ? <span className="artwork-detail-subtitle-year" key={`${part}-${index}`}>{part}</span>
+                      : part
+                  )}
+                </p>
+              )}
+              {(isIndividualWork || artwork.descriptionInHeader) && (
                 <>
-                  <p className="artwork-detail-story-subtitle">{artwork.subtitle}</p>
                   <p className="artwork-detail-description">{artwork.description}</p>
-                  <dl className="artwork-material-details" aria-label="Artwork details">
-                    <div><dt>Materials &amp; tools</dt><dd>{artwork.materials}; {artwork.tools}</dd></div>
+                  {artwork.cast && (
+                    <p className="artwork-detail-description">
+                      <strong>Cast / On-screen Participant:</strong> {artwork.cast}
+                    </p>
+                  )}
+                  {isIndividualWork && <dl className="artwork-material-details" aria-label="Artwork details">
+                    <div><dt>Materials <span className="amp">&amp;</span> tools</dt><dd>{artwork.materials}; {artwork.tools}</dd></div>
                     <div><dt>Date created</dt><dd>{artwork.dateCreated}</dd></div>
                     {artwork.sourceArtworkCredit && (
                       <div className="artwork-source-credit">
@@ -63,12 +101,16 @@ function ArtworkDetail() {
                             target="_blank"
                             rel="noreferrer"
                           >
-                            Read about the painting on Britannica
+                            {artwork.sourceArtworkCredit.sourceName
+                              ? `Read about the painting on ${artwork.sourceArtworkCredit.sourceName}`
+                              : (artwork.sourceArtworkCredit.url.includes("britannica.com")
+                                  ? "Read about the painting on Britannica"
+                                  : "Read about the painting")}
                           </a>
                         </dd>
                       </div>
                     )}
-                  </dl>
+                  </dl>}
                 </>
               )}
               {!isIndividualWork && artwork.medium && artwork.medium !== "Add the medium or format." && (
@@ -76,11 +118,22 @@ function ArtworkDetail() {
               )}
             </header>
 
-            {!isIndividualWork && (
+            {!isIndividualWork && hasStoryContent && (
               <section className="artwork-story" aria-label="Artwork story">
-                <StorySection title="The story" text={artwork.description} />
-                <StorySection title="Inspiration & process" text={`${artwork.inspiration}\n\n${artwork.process}`} />
-                <StorySection title="A personal reflection" text={artwork.reflection} />
+                {artwork.poemTitles && (
+                  <StorySection title="Poem titles" text={artwork.poemTitles} />
+                )}
+                {!artwork.descriptionInHeader &&
+                  artwork.description &&
+                  !artwork.description.startsWith("Add ") && (
+                  <StorySection title="The story" text={artwork.description} />
+                )}
+                {inspirationProcessText && (
+                  <StorySection title="Inspiration & process" text={inspirationProcessText} />
+                )}
+                {artwork.reflection && !artwork.reflection.startsWith("Add ") && (
+                  <StorySection title="A personal reflection" text={artwork.reflection} />
+                )}
               </section>
             )}
 
@@ -89,8 +142,25 @@ function ArtworkDetail() {
                 <h2>Made together</h2>
                 <dl>
                   <div><dt>Group members</dt><dd>{artwork.groupMembers}</dd></div>
-                  <div><dt>Project context</dt><dd>{artwork.projectContext}</dd></div>
+                  {artwork.projectContext && (
+                    <div><dt>Project context</dt><dd>{artwork.projectContext}</dd></div>
+                  )}
+                  {artwork.sourceCredit && (
+                    <div><dt>Source artwork credit</dt><dd>{artwork.sourceCredit}</dd></div>
+                  )}
                   <div><dt>My contribution</dt><dd>{artwork.contribution}</dd></div>
+                  {artwork.toolsAndTechnologies && (
+                    <div><dt>Tools and technologies used</dt><dd>{artwork.toolsAndTechnologies}</dd></div>
+                  )}
+                  {artwork.writtenAnalysisLink && (
+                    <div>
+                      <dt>Written analysis</dt>
+                      <dd><a href={artwork.writtenAnalysisLink} target="_blank" rel="noreferrer">Read the written analysis</a></dd>
+                    </div>
+                  )}
+                  {artwork.dateCreated && (
+                    <div><dt>Date created</dt><dd>{artwork.dateCreated}</dd></div>
+                  )}
                 </dl>
               </section>
             )}
