@@ -17,7 +17,7 @@ function ExplorationDetail() {
   const outputImages = exploration.images?.length
     ? exploration.images
     : exploration.image
-      ? [{ src: exploration.image, alt: exploration.title }]
+      ? [{ src: exploration.image, alt: exploration.alt || exploration.title }]
       : [];
   const processImages = exploration.processImages || [];
 
@@ -40,9 +40,17 @@ function ExplorationDetail() {
         </div>
 
         <div className="artwork-detail-layout exploration-detail-layout">
-          {outputImages.length > 0 ? (
+          {exploration.videoEmbedUrl ? (
+            <div className="artwork-detail-image artwork-detail-video">
+              <iframe
+                src={exploration.videoEmbedUrl}
+                title={`${exploration.title} video`}
+                allow="autoplay; encrypted-media; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
+          ) : outputImages.length > 0 ? (
             <section className="exploration-gallery" aria-label={`${exploration.title} gallery`}>
-              <h2>Made along the way</h2>
               <div className="exploration-image-grid">
                 {outputImages.map((image, index) => (
                   <figure key={image.src}>
@@ -69,18 +77,72 @@ function ExplorationDetail() {
 
           <div className="artwork-detail-copy exploration-detail-copy">
             <header className="artwork-detail-header">
-              <p className="eyebrow">PART II · {String(currentIndex + 1).padStart(2, "0")}</p>
               <h1>{exploration.title}</h1>
-              <p className="artwork-detail-medium">{exploration.medium}</p>
-              <p className="exploration-introduction">{exploration.introduction}</p>
+              {(exploration.subtitle || exploration.medium) && (
+                <p className="artwork-detail-story-subtitle">
+                  {exploration.subtitle || exploration.medium}
+                </p>
+              )}
+              {exploration.description && (
+                <p className="artwork-detail-description">{exploration.description}</p>
+              )}
+              {(exploration.materials ||
+                exploration.tools ||
+                exploration.dateCreated ||
+                exploration.technologiesAndTools ||
+                exploration.instrumentUsed ||
+                exploration.bookUsedForDisplay ||
+                exploration.displayBookCredit) && (
+                <dl className="artwork-material-details exploration-material-details" aria-label="Exploration details">
+                  {(exploration.materials || exploration.tools) && (
+                    <div>
+                      <dt>Materials <span className="amp">&amp;</span> tools</dt>
+                      <dd>{[exploration.materials, exploration.tools].filter(Boolean).join("; ")}</dd>
+                    </div>
+                  )}
+                  {exploration.technologiesAndTools && (
+                    <div>
+                      <dt>Technologies and tools</dt>
+                      <dd>{exploration.technologiesAndTools}</dd>
+                    </div>
+                  )}
+                  {exploration.instrumentUsed && (
+                    <div>
+                      <dt>Instrument used</dt>
+                      <dd>{exploration.instrumentUsed}</dd>
+                    </div>
+                  )}
+                  {(exploration.bookUsedForDisplay || exploration.displayBookCredit) && (
+                    <div>
+                      <dt>Book used for display</dt>
+                      <dd>{exploration.bookUsedForDisplay || exploration.displayBookCredit}</dd>
+                    </div>
+                  )}
+                  {exploration.dateCreated && (
+                    <div>
+                      <dt>Date created</dt>
+                      <dd>{exploration.dateCreated}</dd>
+                    </div>
+                  )}
+                </dl>
+              )}
             </header>
 
-            <section className="exploration-story" aria-label={`${exploration.title} journal entry`}>
-              <ExplorationSection title="A little about this medium" text={exploration.description} />
-              <ExplorationSection title="Inspiration" text={exploration.inspiration} />
-              <ExplorationSection title="Process notes" text={exploration.process} />
-              <ExplorationSection title="Reflection" text={exploration.reflection} />
-            </section>
+            {(exploration.inspiration && !exploration.inspiration.startsWith("Add ")) ||
+              (exploration.process && !exploration.process.startsWith("Add ")) ||
+              (exploration.reflection && !exploration.reflection.startsWith("Add ")) ? (
+                <section className="exploration-story" aria-label={`${exploration.title} journal entry`}>
+                  {exploration.inspiration && !exploration.inspiration.startsWith("Add ") && (
+                    <ExplorationSection title="Inspiration" text={exploration.inspiration} />
+                  )}
+                  {exploration.process && !exploration.process.startsWith("Add ") && (
+                    <ExplorationSection title="Process notes" text={exploration.process} />
+                  )}
+                  {exploration.reflection && !exploration.reflection.startsWith("Add ") && (
+                    <ExplorationSection title="Reflection" text={exploration.reflection} />
+                  )}
+                </section>
+              ) : null}
 
             {processImages.length > 0 && (
               <section className="artwork-process-gallery" aria-label={`${exploration.title} process documentation`}>

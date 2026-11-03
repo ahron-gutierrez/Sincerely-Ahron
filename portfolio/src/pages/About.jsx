@@ -21,14 +21,14 @@ function About() {
         <div className="about-page">
           <p className="handwritten reflection-greeting">Hello!</p>
           <p className="reflection-text">
-            My name is <strong>Ahron E. Gutierrez</strong>. I’m a third-year BS Information Technology
-            student at <strong>FAITH Colleges</strong>.
+            My name is Ahron E. Gutierrez. I’m a third-year BS Information Technology
+            student at FAITH Colleges.
           </p>
 
           <section className="about-section">
             <h2>About this portfolio</h2>
             <p>
-              This portfolio is my final project for <strong>GEARTS+</strong> (Art Appreciation). More than
+              This portfolio is my final project for GEARTS+ (Art Appreciation). More than
               just showcasing my outputs, I wanted it to reflect the most sincere version
               of myself. Hence, it is entitled <strong><em>Sincerely, Ahron</em></strong>.
             </p>

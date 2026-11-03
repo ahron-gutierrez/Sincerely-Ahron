@@ -3944,15 +3944,20 @@ button.artwork-detail-image {
   margin-top: 0;
 }
 
-.part-i-artwork-detail .artwork-detail-story-subtitle {
+.artwork-detail-shell .artwork-detail-story-subtitle {
   margin: 7px 0 0;
   color: var(--olive);
   font-family: var(--handwriting);
   font-size: clamp(35px, 5vw, 35px);
   line-height: 1.3;
+  white-space: pre-line;
 }
 
-.part-i-artwork-detail .artwork-detail-description {
+.artwork-detail-shell .artwork-detail-subtitle-year {
+  font-size: 0.6em;
+}
+
+.artwork-detail-shell .artwork-detail-description {
   margin: 9px 0 0;
   color: var(--ink-soft);
   font-family: var(--serif);
@@ -3962,31 +3967,48 @@ button.artwork-detail-image {
   white-space: pre-line;
 }
 
-.part-i-artwork-detail .artwork-material-details {
+.artwork-detail-shell .artwork-material-details {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(95px, 1fr));
+  grid-template-rows: auto auto;
   align-items: start;
-  gap: 10px 14px;
+  gap: 4px 14px;
   margin: 14px 0 0;
   padding: 12px;
   border: 1px solid var(--rule);
   background: rgba(245, 239, 217, 0.55);
 }
 
-.part-i-artwork-detail .artwork-material-details > div {
+.artwork-detail-shell .artwork-material-details > div {
+  display: grid;
+  grid-template-rows: subgrid;
+  grid-row: span 2;
   min-width: 0;
   text-align: left;
 }
 
-.part-i-artwork-detail .artwork-material-details dt {
-  margin-bottom: 4px;
+.artwork-detail-shell .artwork-material-details dt {
+  display: flex;
+  align-items: baseline;
+  min-height: 24px;
+  margin: 0 0 4px;
   color: var(--olive);
   font-family: var(--handwriting);
   font-size: 18px;
+  line-height: 1.2;
   text-align: left;
 }
 
-.part-i-artwork-detail .artwork-material-details dd {
+.artwork-detail-shell .artwork-material-details dt .amp {
+  display: inline-block;
+  font-family: var(--sans);
+  font-size: 0.82em;
+  line-height: 0;
+  margin: 0 0.22em;
+  vertical-align: 0.05em;
+}
+
+.artwork-detail-shell .artwork-material-details dd {
   margin: 0;
   color: var(--ink-soft);
   font-size: 12px;
@@ -3994,7 +4016,7 @@ button.artwork-detail-image {
   text-align: left;
 }
 
-.part-i-artwork-detail .artwork-material-details .artwork-source-credit a {
+.artwork-detail-shell .artwork-material-details .artwork-source-credit a {
   display: inline-block;
   margin-top: 4px;
   color: var(--olive);
@@ -4003,7 +4025,7 @@ button.artwork-detail-image {
   text-underline-offset: 2px;
 }
 
-.part-i-artwork-detail .artwork-material-details .artwork-source-credit a:hover {
+.artwork-detail-shell .artwork-material-details .artwork-source-credit a:hover {
   color: var(--terracotta);
 }
 
@@ -4048,9 +4070,62 @@ button.artwork-detail-image {
   object-fit: contain;
 }
 
+.artwork-detail-layout .artwork-detail-video {
+  padding: 0;
+  background: #171717;
+}
+
+.artwork-detail-layout .artwork-detail-video iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  border: 0;
+}
+
 .artwork-detail-layout .artwork-detail-image--empty {
   height: 100%;
   min-height: 0;
+}
+
+.artwork-detail-shell--fit-content .artwork-detail-copy {
+  overflow: hidden;
+}
+
+.artwork-detail-shell--fit-content .collaboration-notes {
+  margin-top: 0;
+  padding: 8px 10px;
+}
+
+.artwork-detail-shell--fit-content .collaboration-notes dl {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px 12px;
+  margin-top: 6px;
+}
+
+.artwork-detail-shell--fit-content .collaboration-notes dl > div:first-child {
+  grid-column: 1;
+  grid-row: 1 / span 3;
+}
+
+.artwork-detail-shell--fit-content .collaboration-notes dl > div:first-child dd {
+  columns: auto;
+  overflow-wrap: anywhere;
+  white-space: pre-line;
+}
+
+.artwork-detail-shell--fit-content .collaboration-notes dl > div:not(:first-child) {
+  grid-column: 2;
+}
+
+.artwork-detail-shell--fit-content .collaboration-notes dt {
+  margin-bottom: 1px;
+  font-size: 9px;
+}
+
+.artwork-detail-shell--fit-content .collaboration-notes dd {
+  font-size: 11px;
+  line-height: 1.3;
 }
 
 .artwork-detail-copy {
@@ -4184,12 +4259,6 @@ button.artwork-detail-image {
   min-height: 0;
   flex-direction: column;
   margin: 0;
-}
-
-.exploration-detail-layout .exploration-gallery > h2 {
-  flex: 0 0 auto;
-  margin-bottom: 8px;
-  font-size: 18px;
 }
 
 .exploration-detail-layout .exploration-image-grid {
@@ -4331,6 +4400,20 @@ button.artwork-detail-image {
   .artwork-detail-copy {
     overflow: visible;
     padding: 0;
+  }
+
+  .artwork-detail-shell--fit-content .artwork-detail-copy {
+    overflow: visible;
+  }
+
+  .artwork-detail-shell--fit-content .collaboration-notes dl {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .artwork-detail-shell--fit-content .collaboration-notes dl > div:first-child,
+  .artwork-detail-shell--fit-content .collaboration-notes dl > div:not(:first-child) {
+    grid-column: 1;
+    grid-row: auto;
   }
 
   .artwork-detail-footer {
