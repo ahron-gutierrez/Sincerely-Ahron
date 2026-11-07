@@ -200,7 +200,6 @@
   min-height: 40px;
   align-items: center;
   justify-content: center;
-  gap: 8px;
   padding: 8px 16px;
   border: 1px solid rgba(76, 62, 47, 0.26);
   border-radius: 999px;
@@ -209,7 +208,7 @@
   color: var(--ink);
   cursor: url("/cursors/yellow-crayon.cur") 12 8, pointer;
   font-family: var(--handwriting);
-  font-size: 20px;
+  font-size: 28px;
   pointer-events: auto;
   transform: translateX(-50%);
   transition:
@@ -217,6 +216,38 @@
     box-shadow 180ms ease,
     transform 180ms ease,
     opacity 180ms ease;
+}
+
+.intro-animation__open-button :is(.handwriting-text, .handwriting-word, .handwriting-word__image) {
+  display: block;
+}
+
+.intro-animation__open-button .handwriting-word__image {
+  /* The original 128px render has a gap after the first letter and stray ink below. */
+  --open-letter-cut: 0.40625em;
+  --open-letter-shift: 0.109375em;
+  width: calc(var(--writing-width) - var(--open-letter-shift));
+  height: 0.57em;
+  overflow: hidden;
+}
+
+.intro-animation__open-button .handwriting-word__image::before {
+  top: 0;
+  left: 0;
+  clip-path: inset(0 calc(100% - var(--open-letter-cut)) 0 0);
+}
+
+.intro-animation__open-button .handwriting-word__image::after {
+  position: absolute;
+  top: 0;
+  left: calc(-1 * var(--open-letter-shift));
+  width: var(--writing-width);
+  height: var(--writing-height);
+  background: currentColor;
+  mask: var(--writing-image) center / 100% 100% no-repeat;
+  clip-path: inset(0 0 0 var(--open-letter-cut));
+  content: "";
+  pointer-events: none;
 }
 
 .intro-animation__open-button:hover {

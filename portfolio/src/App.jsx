@@ -1,3 +1,4 @@
+import HandwritingText from "./components/HandwritingText";
 import { useState } from "react";
 import { BrowserRouter, Navigate, NavLink, Route, Routes, useLocation } from "react-router-dom";
 
@@ -11,6 +12,7 @@ import ArtworkDetail from "./pages/ArtworkDetail";
 import ExplorationDetail from "./pages/ExplorationDetail";
 import IntroAnimation from "./components/IntroAnimation";
 import ScrollToTopButton from "./components/ScrollToTopButton";
+import CrayonTrail from "./components/CrayonTrail";
 import "./styles/App.css";
 
 function PortfolioApp() {
@@ -34,12 +36,12 @@ function PortfolioApp() {
           <img src="/website-logo.png" alt="" />
         </NavLink>
         <nav className="navbar-links" aria-label="Main navigation">
-          <NavLink to="/" end>Home</NavLink>
-          <NavLink to="/part-i">Part I</NavLink>
-          <NavLink to="/part-ii">Part II</NavLink>
-          <NavLink to="/reflection">Reflection</NavLink>
-          <NavLink to="/appendices">Appendices</NavLink>
-          <NavLink to="/about">About</NavLink>
+          <NavLink to="/" end><HandwritingText tracking={0.045} compactNav>Home</HandwritingText></NavLink>
+          <NavLink to="/part-i"><HandwritingText tracking={0.045} compactNav>Part I</HandwritingText></NavLink>
+          <NavLink to="/part-ii"><HandwritingText tracking={0.045} compactNav>Part II</HandwritingText></NavLink>
+          <NavLink to="/reflection"><HandwritingText tracking={0.045} compactNav>Reflection</HandwritingText></NavLink>
+          <NavLink to="/appendices"><HandwritingText tracking={0.045} compactNav>Appendices</HandwritingText></NavLink>
+          <NavLink to="/about"><HandwritingText tracking={0.045} compactNav>About</HandwritingText></NavLink>
         </nav>
       </header>
       <div
@@ -67,14 +69,6 @@ function PortfolioApp() {
       </div>
       {!introComplete && <IntroAnimation onComplete={completeIntro} />}
       {introComplete && <ScrollToTopButton routeKey={location.pathname} />}
-      <footer
-        className="site-footer"
-        aria-hidden={!introComplete}
-        inert={!introComplete}
-      >
-        <span>Made slowly, with room to grow.</span>
-        <span className="handwritten">sincerely, ahron</span>
-      </footer>
     </div>
   );
 }
@@ -82,6 +76,7 @@ function PortfolioApp() {
 function App() {
   return (
     <BrowserRouter>
+      <CrayonTrail />
       <PortfolioApp />
     </BrowserRouter>
   );

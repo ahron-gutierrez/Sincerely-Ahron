@@ -1,22 +1,23 @@
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import AppendixSection from "../components/AppendixSection";
-import DiarySpread from "../components/DiarySpread";
-import { explorations } from "../data/portfolio";
+import "../styles/Appendices.css";
 
 function Appendices() {
+  const { hash } = useLocation();
+
+  useEffect(() => {
+    if (hash !== "#scrap-capture-dates") return;
+    const heading = document.getElementById("scrap-capture-dates");
+    heading?.focus({ preventScroll: true });
+    heading?.scrollIntoView();
+  }, [hash]);
+
   return (
     <main className="site-page-shell">
-      <DiarySpread
-        sectionLabel="appendices"
-        title="Appendices"
-        leftNotes={(
-          <p>
-            Supporting materials and process documentation that accompany the work.
-          </p>
-        )}
-        pageNumber={7}
-      >
-        <AppendixSection explorations={explorations} />
-      </DiarySpread>
+      <div className="diary-spread appendices-scrapbook">
+        <AppendixSection />
+      </div>
     </main>
   );
 }

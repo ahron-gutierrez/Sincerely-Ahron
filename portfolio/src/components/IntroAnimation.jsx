@@ -1,3 +1,4 @@
+import HandwritingText from "./HandwritingText";
 import { createPortal } from "react-dom";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import "../styles/IntroAnimation.css";
@@ -139,7 +140,7 @@ function IntroAnimation({ onComplete }) {
             <span className="intro-animation__cover-kicker">ART APPRECIATION PORTFOLIO</span>
             <span className="intro-animation__title">
               Sincerely,
-              <span>Ahron</span>
+              <span><HandwritingText tracking={-0.035}>Ahron</HandwritingText></span>
             </span>
             <span className="intro-animation__cover-note">
               
@@ -156,10 +157,10 @@ function IntroAnimation({ onComplete }) {
         aria-label="Open my diary"
         style={{
           left: bookBounds.left + bookBounds.width / 2,
-          top: bookBounds.bottom + 18,
+          top: `min(${bookBounds.bottom + 18}px, calc(100% - 52px))`,
         }}
       >
-        open <span aria-hidden="true">↗</span>
+        <HandwritingText>open</HandwritingText>
       </button>
     </div>,
     document.body,
