@@ -1,0 +1,57 @@
+.handwriting-text {
+  font-family: Arial, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: normal;
+  word-spacing: var(--handwriting-space);
+}
+
+.handwriting-word {
+  font-style: normal;
+}
+
+.handwriting-word__image,
+.handwriting-word__compact {
+  position: relative;
+  display: inline-block;
+  width: var(--writing-advance);
+  height: 0;
+  vertical-align: baseline;
+}
+
+.handwriting-word__compact {
+  display: none;
+}
+
+.handwriting-word__image::before,
+.handwriting-word__compact::before {
+  position: absolute;
+  top: var(--writing-top);
+  left: var(--writing-left);
+  width: var(--writing-width);
+  height: var(--writing-height);
+  background: currentColor;
+  mask: var(--writing-image) center / 100% 100% no-repeat;
+  content: "";
+  pointer-events: none;
+  forced-color-adjust: none;
+}
+
+.scrap-index a .handwriting-word__image::after,
+.journal-back-link:is(:hover, :focus-visible) .handwriting-word__image::after {
+  position: absolute;
+  top: 0.16em;
+  inset-inline: 0;
+  border-bottom: 1px solid currentColor;
+  content: "";
+}
+
+@media (max-width: 640px) {
+  .handwriting-text--nav .handwriting-word__image {
+    display: none;
+  }
+
+  .handwriting-text--nav .handwriting-word__compact {
+    display: inline-block;
+  }
+}

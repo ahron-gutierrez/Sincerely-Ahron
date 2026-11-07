@@ -1,3 +1,4 @@
+import HandwritingText from "../components/HandwritingText";
 import DiarySpread from "../components/DiarySpread";
 
 function About() {
@@ -8,25 +9,26 @@ function About() {
         title="About Me"
         leftNotes={(
           <>
-            <p>Who is Ahron?</p>
-            <img
-              className="about-note-image"
-              src="/about/ahron-portrait.png"
-              alt="A childhood photograph of Ahron in a scout uniform."
-            />
+            <p className="handwritten reflection-greeting"><HandwritingText>Hello!</HandwritingText></p>
+            <p className="reflection-text">
+              My name is Ahron E. Gutierrez. I’m a third-year BS Information Technology
+              student at FAITH Colleges.
+            </p>
+            <figure className="about-note-portrait">
+              <img
+                className="about-note-image"
+                src="/about/ahron-portrait.png"
+                alt="A childhood photograph of Ahron in a scout uniform."
+              />
+              <figcaption className="handwritten"><HandwritingText wrap>This was me, several years ago.</HandwritingText></figcaption>
+            </figure>
           </>
         )}
         pageNumber={9}
       >
         <div className="about-page">
-          <p className="handwritten reflection-greeting">Hello!</p>
-          <p className="reflection-text">
-            My name is Ahron E. Gutierrez. I’m a third-year BS Information Technology
-            student at FAITH Colleges.
-          </p>
-
           <section className="about-section">
-            <h2>About this portfolio</h2>
+            <h2><HandwritingText>About this portfolio</HandwritingText></h2>
             <p>
               This portfolio is my final project for GEARTS+ (Art Appreciation). More than
               just showcasing my outputs, I wanted it to reflect the most sincere version
@@ -35,7 +37,7 @@ function About() {
           </section>
 
           <section className="about-section">
-            <h2>My Story</h2>
+            <h2><HandwritingText>My Story</HandwritingText></h2>
             <p>
               I grew up watching my mother make arts and crafts. She made DIY flowers out
               of cellophane wrappers, sewed circle rags from scrap fabric, turned old jeans
@@ -58,13 +60,13 @@ function About() {
           </section>
 
           <section className="about-section about-credits">
-            <h2>Credits</h2>
+            <h2><HandwritingText>Credits</HandwritingText></h2>
             <ul>
               <li>Logo, Header Section and Navbar Font: <strong>My own handwriting, converted into a font</strong></li>
               <li>Design Elements: <strong>Canva for Education</strong></li>
               <li>
                 Custom Cursor: Cursor design by <strong>Daniel W.</strong> from{" "}
-                <a href="https://www.rw-designer.com" target="_blank" rel="noreferrer">
+                <a href="https://www.rw-designer.com/user-art/3779" target="_blank" rel="noreferrer">
                   RW-Designer
                 </a>
               </li>

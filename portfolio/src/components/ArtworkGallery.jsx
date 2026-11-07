@@ -1,3 +1,4 @@
+import HandwritingText from "./HandwritingText";
 import { Link } from "react-router-dom";
 
 const collections = [
@@ -9,7 +10,7 @@ const collections = [
   },
   {
     title: "Collaborative Works",
-    description: "Works made with classmates through shared ideas.",
+    description: "Works made with classmates through shared ideas",
     category: "Collaborative Work",
     number: "02",
   },
@@ -20,7 +21,7 @@ function ArtworkGallery({ artworks }) {
   return (
     <div className="artwork-gallery">
       <header className="collection-heading">
-        <h2>GEARTS Archive</h2>
+        <h2><HandwritingText>GEARTS Archive</HandwritingText></h2>
         <span className="collection-rule" aria-hidden="true" />
  
       </header>
@@ -32,10 +33,10 @@ function ArtworkGallery({ artworks }) {
         return (
           <section className="artwork-collection" key={collection.category}>
             <header className="artwork-collection-heading">
-              <span className="collection-number">{collection.number}</span>
+              <span className="collection-number"><HandwritingText>{collection.number}</HandwritingText></span>
               <div>
-                <h3>{collection.title}</h3>
-                <p>{collection.description}</p>
+                <h3><HandwritingText>{collection.title}</HandwritingText></h3>
+                <p><HandwritingText wrap>{collection.description}</HandwritingText></p>
               </div>
             </header>
             <div className={`artwork-list artwork-list--${collection.number}`}>
@@ -51,10 +52,9 @@ function ArtworkGallery({ artworks }) {
                       <img src={artwork.image} alt="" />
                     ) : (
                       <span className="artwork-thumb-empty handwritten">
-                        Artwork image<br />to be added
+                        <HandwritingText>Artwork image</HandwritingText><br /><HandwritingText>to be added</HandwritingText>
                       </span>
                     )}
-                    <span className="thumb-open" aria-hidden="true">↗</span>
                   </span>
                   <span className="artwork-entry-copy">
                     <span className="artwork-title">{artwork.title}</span>

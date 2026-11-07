@@ -1,6 +1,8 @@
-import { useCallback, useState } from "react";
+import HandwritingText from "../components/HandwritingText";
+import { Fragment, useCallback, useState } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import ArtworkViewer from "../components/ArtworkViewer";
+import DetailDescription from "../components/DetailDescription";
 import { courseWorks } from "../data/portfolio";
 
 function ArtworkDetail() {
@@ -36,7 +38,7 @@ function ArtworkDetail() {
     <main className={`artwork-detail-shell artwork-detail-shell--${artwork.layout}${artwork.fitContent ? " artwork-detail-shell--fit-content" : ""} part-i-artwork-detail`}>
       <article className="artwork-journal-page">
         <div className="artwork-detail-topline">
-          <Link className="journal-back-link" to="/part-i">← Back to Part I</Link>
+          <Link className="journal-back-link" to="/part-i"><HandwritingText>← Back to Part I</HandwritingText></Link>
           <span className="eyebrow">{artwork.category}</span>
         </div>
 
@@ -58,11 +60,11 @@ function ArtworkDetail() {
               aria-label={`Enlarge ${artwork.title}`}
             >
               <img src={artwork.image} alt={artwork.alt || artwork.title} />
-              <span className="image-enlarge-note" aria-hidden="true">Click to look closer</span>
+              <span className="image-enlarge-note" aria-hidden="true"><HandwritingText>Click to look closer</HandwritingText></span>
             </button>
           ) : (
             <div className="artwork-detail-image artwork-detail-image--empty">
-              <span className="handwritten">Artwork image to be added</span>
+              <span className="handwritten"><HandwritingText wrap>Artwork image to be added</HandwritingText></span>
               <p>Add this artwork's image path to its entry in <code>src/data/portfolio.js</code>.</p>
             </div>
           )}
@@ -74,25 +76,25 @@ function ArtworkDetail() {
                 <p className="artwork-detail-story-subtitle">
                   {artwork.subtitle.split(/(\(\d{4}\))/).map((part, index) =>
                     /^\(\d{4}\)$/.test(part)
-                      ? <span className="artwork-detail-subtitle-year" key={`${part}-${index}`}>{part}</span>
-                      : part
+                      ? <span className="artwork-detail-subtitle-year" key={`${part}-${index}`}><HandwritingText>{part}</HandwritingText></span>
+                      : <Fragment key={`${part}-${index}`}><HandwritingText wrap>{part.trim()}</HandwritingText>{part.endsWith(" ") && " "}</Fragment>
                   )}
                 </p>
               )}
               {(isIndividualWork || artwork.descriptionInHeader) && (
                 <>
-                  <p className="artwork-detail-description">{artwork.description}</p>
+                  <DetailDescription text={artwork.description} />
                   {artwork.cast && (
-                    <p className="artwork-detail-description">
+                    <p className="artwork-detail-description artwork-detail-cast">
                       <strong>Cast / On-screen Participant:</strong> {artwork.cast}
                     </p>
                   )}
                   {isIndividualWork && <dl className="artwork-material-details" aria-label="Artwork details">
-                    <div><dt>Materials <span className="amp">&amp;</span> tools</dt><dd>{artwork.materials}; {artwork.tools}</dd></div>
-                    <div><dt>Date created</dt><dd>{artwork.dateCreated}</dd></div>
+                    <div><dt><HandwritingText>Materials</HandwritingText> <span className="amp">&amp;</span> <HandwritingText>tools</HandwritingText></dt><dd>{artwork.materials}; {artwork.tools}</dd></div>
+                    <div><dt><HandwritingText>Date created</HandwritingText></dt><dd>{artwork.dateCreated}</dd></div>
                     {artwork.sourceArtworkCredit && (
                       <div className="artwork-source-credit">
-                        <dt>Source artwork credit</dt>
+                        <dt><HandwritingText>Source artwork credit</HandwritingText></dt>
                         <dd>
                           {artwork.sourceArtworkCredit.title} by {artwork.sourceArtworkCredit.artist}
                           {" "}
@@ -114,7 +116,7 @@ function ArtworkDetail() {
                 </>
               )}
               {!isIndividualWork && artwork.medium && artwork.medium !== "Add the medium or format." && (
-                <p className="artwork-detail-medium">{artwork.medium}</p>
+                <p className="artwork-detail-medium"><HandwritingText wrap>{artwork.medium}</HandwritingText></p>
               )}
             </header>
 
@@ -139,7 +141,7 @@ function ArtworkDetail() {
 
             {artwork.category === "Collaborative Work" && (
               <section className="collaboration-notes" aria-label="Collaboration details">
-                <h2>Made together</h2>
+                <h2><HandwritingText>Made together</HandwritingText></h2>
                 <dl>
                   <div><dt>Group members</dt><dd>{artwork.groupMembers}</dd></div>
                   {artwork.projectContext && (
@@ -167,12 +169,12 @@ function ArtworkDetail() {
 
             {artwork.processImages?.length > 0 && (
               <section className="artwork-process-gallery" aria-label="Process images">
-                <h2>Along the way</h2>
+                <h2><HandwritingText>Along the way</HandwritingText></h2>
                 <div className="process-image-list">
                   {artwork.processImages.map((image) => (
                     <figure key={image.src}>
                       <img src={image.src} alt={image.alt} />
-                      {image.caption && <figcaption>{image.caption}</figcaption>}
+                      {image.caption && <figcaption><HandwritingText wrap>{image.caption}</HandwritingText></figcaption>}
                     </figure>
                   ))}
                 </div>
@@ -186,19 +188,19 @@ function ArtworkDetail() {
             <div className="artwork-sequence-links">
               {previousArtwork ? (
                 <Link className="artwork-sequence-link artwork-sequence-link--previous" to={`/part-i/${previousArtwork.id}`}>
-                  <span aria-hidden="true">←</span>
-                  <span><span className="artwork-sequence-label">Previous:</span> {previousArtwork.title}</span>
+                  <span aria-hidden="true"><HandwritingText>←</HandwritingText></span>
+                  <span><span className="artwork-sequence-label"><HandwritingText>Previous:</HandwritingText></span> <HandwritingText wrap>{previousArtwork.title}</HandwritingText></span>
                 </Link>
               ) : (
-                <span className="artwork-sequence-unavailable">Beginning of the collection</span>
+                <span className="artwork-sequence-unavailable"><HandwritingText wrap>Beginning of the collection</HandwritingText></span>
               )}
               {nextArtwork ? (
                 <Link className="artwork-sequence-link artwork-sequence-link--next" to={`/part-i/${nextArtwork.id}`}>
-                  <span><span className="artwork-sequence-label">Next:</span> {nextArtwork.title}</span>
-                  <span aria-hidden="true">→</span>
+                  <span><span className="artwork-sequence-label"><HandwritingText>Next:</HandwritingText></span> <HandwritingText wrap>{nextArtwork.title}</HandwritingText></span>
+                  <span aria-hidden="true"><HandwritingText>→</HandwritingText></span>
                 </Link>
               ) : (
-                <span className="artwork-sequence-unavailable artwork-sequence-unavailable--next">End of the collection</span>
+                <span className="artwork-sequence-unavailable artwork-sequence-unavailable--next"><HandwritingText wrap>End of the collection</HandwritingText></span>
               )}
             </div>
           </nav>
@@ -218,7 +220,7 @@ function ArtworkDetail() {
 function StorySection({ title, text }) {
   return (
     <section className="artwork-story-section">
-      <h2>{title}</h2>
+      <h2><HandwritingText>{title}</HandwritingText></h2>
       <p>{text}</p>
     </section>
   );

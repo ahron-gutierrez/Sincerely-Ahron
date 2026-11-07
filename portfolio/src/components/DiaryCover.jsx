@@ -1,3 +1,4 @@
+import HandwritingText from "./HandwritingText";
 function DiaryCover({ openingState, onOpen }) {
   const isOpening = openingState === "opening";
 
@@ -19,7 +20,7 @@ function DiaryCover({ openingState, onOpen }) {
         <span className="cover-content">
           <span className="cover-kicker">ART APPRECIATION PORTFOLIO</span>
           <span className="cover-title">Sincerely,<br />Ahron</span>
-          <span className="cover-subtitle">A little record of everything I’m becoming.</span>
+          <span className="cover-subtitle"><HandwritingText wrap>A little record of everything I’m becoming.</HandwritingText></span>
           <span className="cover-doodle cover-doodle--star" aria-hidden="true">✳</span>
           <span className="cover-doodle cover-doodle--flower" aria-hidden="true">✿</span>
           <span className="cover-open-prompt">

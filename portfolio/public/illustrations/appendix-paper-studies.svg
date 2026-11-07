@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 240">
+  <view id="thread" viewBox="0 0 360 240"/>
+  <view id="loop" viewBox="0 240 360 240"/>
+  <view id="rings" viewBox="0 480 360 240"/>
+  <view id="petals" viewBox="0 720 360 240"/>
+  <view id="grid" viewBox="0 960 360 240"/>
+  <view id="swatches" viewBox="0 1200 360 240"/>
+  <view id="ruled" viewBox="0 1440 360 240"/>
+  <defs>
+    <pattern id="squares" width="16" height="16" patternUnits="userSpaceOnUse">
+      <path d="M0 16V0h16" fill="none" stroke="#a8a389" stroke-opacity=".42"/>
+    </pattern>
+  </defs>
+  <path d="M0 0h360v240H0z" fill="#ebdbab"/>
+  <g fill="none" stroke="#a58741" stroke-width="3" stroke-linecap="round">
+    <path d="M50 152c42-54 78-94 145-71 45 15 34 73-17 81-58 10-95-37-65-69 21-23 79-12 75 20-4 21-42 26-58 11"/>
+    <path d="M45 167c70-20 89-117 175-103 40 7 66 59 91 50" opacity=".55"/>
+  </g>
+  <path d="M0 240h360v240H0z" fill="#ece6cc"/>
+  <path d="M51 398c58 8 126-120 176-79 33 27-16 77-48 62-19-9-16-34 2-45 35-20 64 53 124 55" fill="none" stroke="#807b4c" stroke-width="3" stroke-linecap="round"/>
+  <path d="M0 480h360v240H0z" fill="#dce0c4"/>
+  <g fill="none" stroke="#788653" stroke-width="2.5">
+    <ellipse cx="180" cy="600" rx="69" ry="60"/>
+    <ellipse cx="180" cy="600" rx="53" ry="45" transform="rotate(-12 180 600)"/>
+    <ellipse cx="180" cy="600" rx="33" ry="29" transform="rotate(9 180 600)"/>
+  </g>
+  <path d="M0 720h360v240H0z" fill="#efe4b9"/>
+  <g transform="translate(180 837)" fill="none" stroke="#a58842" stroke-width="2.5">
+    <circle r="24"/>
+    <path d="M-18-18c-42-28-3-70 18-17 22-54 60-10 20 16 49-13 58 36 11 32 38 31-1 61-24 21-9 51-56 31-34-9-50 14-53-36-2-31z"/>
+  </g>
+  <path d="M0 960h360v240H0zM0 1200h360v240H0z" fill="#e5e4d4"/>
+  <path d="M0 960h360v240H0zM0 1200h360v240H0z" fill="url(#squares)"/>
+  <path d="M95 1312h48v48H95z" fill="#a3aa81"/>
+  <path d="M143 1280h48v48h-48z" fill="#c4a55a"/>
+  <path d="M191 1328h48v48h-48z" fill="#a18467"/>
+  <path d="M0 1440h360v240H0z" fill="#e9dfc6"/>
+  <path d="M34 1490h292m-292 30h292m-292 30h292m-292 30h292m-292 30h292m-292 30h292M105 1474v180" fill="none" stroke="#aa9673" stroke-opacity=".65"/>
+</svg>
