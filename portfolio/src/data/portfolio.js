@@ -258,7 +258,7 @@ export const explorations = [
     dateCreatedLabel: "Date created",
     medium: "Photography",
     introduction: "",
-    description: "This interactive photo gallery features photographs I took during different events this year. Although they were not originally taken for this course, I still consider this activity a form of artistic exploration. Each photograph holds a memory that I associate with a particular song.",
+    description: "This interactive photo gallery features photographs I took during different events this year. Although they were not originally taken for this course, I still consider this activity a form of artistic exploration.",
     galleryInstructions: "You may click on the photographs to view them and discover the songs I associate with each one.",
     inspiration: "Add what inspired this exploration.",
     process: "Add notes about the creative process.",
