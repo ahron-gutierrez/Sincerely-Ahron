@@ -1,0 +1,104 @@
+.scrapbook-doodles {
+  position: absolute;
+  inset: 0;
+  overflow: clip;
+  pointer-events: none;
+}
+
+.scrapbook-doodles--main {
+  z-index: 0;
+}
+
+.scrapbook-doodles--main .scrapbook-doodle--main-sheet {
+  inset-block-start: 8%;
+  inset-inline-end: 4%;
+  width: clamp(92px, 16%, 190px);
+  opacity: 0.36;
+}
+
+.journal-page--notes .scrapbook-doodles--main .scrapbook-doodle--main-sheet {
+  inset-inline-start: 5%;
+  inset-inline-end: auto;
+  transform: rotate(-8deg);
+}
+
+@media (max-width: 640px) {
+  .scrapbook-doodles--main .scrapbook-doodle--main-sheet {
+    width: 92px;
+    opacity: 0.26;
+  }
+}
+
+.scrapbook-doodle {
+  position: absolute;
+  display: block;
+  height: auto;
+}
+
+.scrapbook-doodle--pink {
+  inset-block-start: 7px;
+  inset-inline-start: 17px;
+  width: 16px;
+  opacity: 0.76;
+  --doodle-time: 21s;
+  --doodle-delay: -4s;
+  --doodle-x: 2px;
+  --doodle-y: -3px;
+  --doodle-turn: 2deg;
+}
+
+.scrapbook-doodle--blue {
+  inset-block-end: 41px;
+  inset-inline-end: 7px;
+  width: clamp(16px, calc(4vw - 12px), 33px);
+  opacity: 0.5;
+  --doodle-time: 28s;
+  --doodle-delay: -12s;
+  --doodle-x: -3px;
+  --doodle-y: -4px;
+  --doodle-turn: -3deg;
+}
+
+.scrapbook-doodle--yellow {
+  inset-block-start: 7px;
+  inset-inline-end: clamp(20px, 5%, 54px);
+  width: 20px;
+  opacity: 0.72;
+  --doodle-time: 17s;
+  --doodle-delay: -7s;
+  --doodle-x: 2px;
+  --doodle-y: -2px;
+  --doodle-turn: 1.5deg;
+}
+
+.diary-spread--about .scrapbook-doodle--pink {
+  inset-inline-start: 25px;
+}
+
+.diary-spread--about .scrapbook-doodle--yellow {
+  inset-inline-end: clamp(28px, 8%, 74px);
+}
+
+@media (max-width: 640px) {
+  .scrapbook-doodle--pink {
+    width: 13px;
+  }
+
+  .scrapbook-doodle--yellow {
+    width: 15px;
+  }
+
+  .scrapbook-doodle--blue {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .scrapbook-doodle {
+    animation: scrapbook-doodle-drift var(--doodle-time) ease-in-out var(--doodle-delay) infinite alternate;
+  }
+}
+
+@keyframes scrapbook-doodle-drift {
+  to { transform: translate(var(--doodle-x), var(--doodle-y)) rotate(var(--doodle-turn)); }
+}

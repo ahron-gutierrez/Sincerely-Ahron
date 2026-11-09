@@ -10,9 +10,10 @@ function Reflection() {
       <DiarySpread
         sectionLabel="reflection"
         title="Reflection"
+        withDoodles
         leftNotes={(
           <p>
-            A space to look back on the journey and consider the artist I’m still becoming.
+            My Thoughts, Insights, and Lessons Learned
           </p>
         )}
         pageNumber={5}
@@ -22,7 +23,25 @@ function Reflection() {
             <p className="eyebrow">The next chapter</p>
             <h2 id="reflection-title">Who am I becoming?</h2>
             {reflection ? (
-              <p className="reflection-text">{reflection}</p>
+              <div className="reflection-text">
+                {reflection.split(/\n\s*\n/).map((paragraph) => {
+                  const [before, after] = paragraph.split("Sincerely, Ahron");
+                  const highlights = [
+                    "I knew I wasn’t good at painting, drawing, or even sketching. I was doomed",
+                    "Art Appreciation is also about observing, thinking, and finding meaning.",
+                    "It is about what I learned, how I struggled, and how I slowly changed",
+                    "art does not have to meet everyone’s standards to matter",
+                    "I’ve never been perfect, and I don’t want the portfolio to pretend otherwise.",
+                    "In this way, I am becoming a little more like my younger self again.",
+                  ];
+                  const renderText = (text) => highlights.reduce((result, phrase) => result.flatMap((part) => {
+                    if (typeof part !== "string") return [part];
+                    const pieces = part.split(phrase);
+                    return pieces.flatMap((piece, index) => index < pieces.length - 1 ? [piece, <mark key={`${phrase}-${index}`}>{phrase}</mark>] : [piece]);
+                  }), [text]);
+                  return <p key={paragraph}>{after === undefined ? renderText(paragraph) : <>{renderText(before)}<strong><em>Sincerely, Ahron</em></strong>{renderText(after)}</>}</p>;
+                })}
+              </div>
             ) : (
               <>
                 <p className="reflection-placeholder">

@@ -2,6 +2,7 @@ import HandwritingText from "../components/HandwritingText";
 import { Link } from "react-router-dom";
 import DiarySpread from "../components/DiarySpread";
 import { signatureImage } from "../data/portfolio";
+import "../styles/HomeClouds.css";
 
 function Home() {
   const letter = (
@@ -20,10 +21,12 @@ function Home() {
       <p className="muted-copy">
         And I hope that little kid is still somewhere in me.
       </p>
-      <span className="handwritten note-signoff"><HandwritingText tracking={0.02}>Sincerely,</HandwritingText></span>
-      <div className="signature-slot" aria-label="Ahron's handwritten signature">
+      <div className="letter-signature">
+        <span className="handwritten note-signoff"><HandwritingText tracking={0.02}>Sincerely,</HandwritingText></span>
         {signatureImage && (
-          <img className="handwriting-image scanned-signature" src={signatureImage} alt="Ahron's handwritten signature" />
+          <div className="signature-slot">
+            <img className="handwriting-image scanned-signature" src={signatureImage} alt="Ahron's handwritten signature" />
+          </div>
         )}
       </div>
     </div>
@@ -31,6 +34,13 @@ function Home() {
 
   return (
     <main className="home-shell home-shell--front">
+      <div className="home-clouds" aria-hidden="true">
+        <span className="home-cloud home-cloud--west" />
+        <span className="home-cloud home-cloud--high" />
+        <span className="home-cloud home-cloud--distant" />
+        <span className="home-cloud home-cloud--east" />
+        <span className="home-cloud home-cloud--low" />
+      </div>
       <div className="ambient-note" aria-hidden="true"><HandwritingText>a record in progress</HandwritingText></div>
       <div className="diary-stage diary-stage--open">
         <DiarySpread

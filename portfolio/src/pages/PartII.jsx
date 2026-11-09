@@ -11,6 +11,8 @@ function PartII() {
         title="My Artistic Exploration"
         leftNotes={<p>A collection of my experiences trying new forms of art. This includes music, handmade crafts, digital art, and photography.</p>}
         pageNumber={3}
+        withDoodles
+        doodleSet="main"
       >
         <div className="exploration-index">
           <header className="exploration-index-heading">

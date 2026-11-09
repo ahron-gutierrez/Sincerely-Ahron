@@ -1,6 +1,6 @@
 import HandwritingText from "./components/HandwritingText";
-import { useState } from "react";
-import { BrowserRouter, Navigate, NavLink, Route, Routes, useLocation } from "react-router-dom";
+import { useLayoutEffect, useRef, useState } from "react";
+import { BrowserRouter, Navigate, NavLink, Route, Routes, useLocation, useNavigationType } from "react-router-dom";
 
 import Appendices from "./pages/Appendices";
 import About from "./pages/About";
@@ -17,9 +17,20 @@ import "./styles/App.css";
 
 function PortfolioApp() {
   const location = useLocation();
+  const navigationType = useNavigationType();
+  const previousPath = useRef(location.pathname);
+  const [openingLetterKey] = useState(() => location.pathname === "/" ? location.key : null);
   const [introComplete, setIntroComplete] = useState(() => location.pathname !== "/");
   const isPartI = location.pathname.startsWith("/part-i");
   const isArtworkDetail = /^\/part-[12]\//.test(location.pathname);
+
+  useLayoutEffect(() => {
+    const changedPage = previousPath.current !== location.pathname;
+    previousPath.current = location.pathname;
+    if (changedPage && navigationType !== "POP" && !location.hash) {
+      window.scrollTo(0, 0);
+    }
+  }, [location.pathname, location.hash, navigationType]);
 
   function completeIntro() {
     setIntroComplete(true);
@@ -45,7 +56,7 @@ function PortfolioApp() {
         </nav>
       </header>
       <div
-        className="route-page"
+        className={location.key === openingLetterKey ? "route-page route-page--opening-letter" : "route-page"}
         key={location.pathname}
         aria-hidden={!introComplete}
         inert={!introComplete}

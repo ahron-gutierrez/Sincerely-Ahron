@@ -7,6 +7,7 @@ function About() {
       <DiarySpread
         sectionLabel="about"
         title="About Me"
+        withDoodles
         leftNotes={(
           <>
             <p className="handwritten reflection-greeting"><HandwritingText>Hello!</HandwritingText></p>
@@ -46,7 +47,8 @@ function About() {
             <p>
               As a child, I loved making things, too. I would make paper gears and paper
               airplanes, then color them with my old crayons. I knew I wasn’t as good as my
-              mother, but it didn’t really matter. <p>I simply enjoyed making things.</p>
+              mother, but it didn’t really matter.<br />
+              I simply enjoyed making things.
             </p>
             <p>
               But I changed as I grew older. I became occupied with other things and drifted
@@ -77,6 +79,13 @@ function About() {
               for her guidance throughout the course.
             </p>
           </section>
+
+          <section className="about-section about-comments">
+            <h2><HandwritingText>Dear Ahron,</HandwritingText></h2>
+            <p className="about-comments-prompt">Send your thoughts, message, or a little note.</p>
+            <div className="commonninja_component pid-8260e98d-9fcb-4fbd-b7da-ca9a8deb05b8" />
+          </section>
+
         </div>
       </DiarySpread>
     </main>

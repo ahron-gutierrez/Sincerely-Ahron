@@ -25,6 +25,7 @@ function ScrollToTopButton({ routeKey }) {
       updateVisibility();
     });
     window.addEventListener("scroll", updateVisibility, { passive: true });
+    window.addEventListener("resize", updateVisibility);
     detailScroller?.addEventListener("scroll", updateVisibility, { passive: true });
 
     return () => {
@@ -32,6 +33,7 @@ function ScrollToTopButton({ routeKey }) {
       cancelAnimationFrame(scrollFrame.current);
       scrollFrame.current = 0;
       window.removeEventListener("scroll", updateVisibility);
+      window.removeEventListener("resize", updateVisibility);
       detailScroller?.removeEventListener("scroll", updateVisibility);
     };
   }, [routeKey]);

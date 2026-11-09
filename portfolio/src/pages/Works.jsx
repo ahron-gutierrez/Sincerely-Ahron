@@ -17,6 +17,8 @@ function Works() {
           </>
         )}
         pageNumber={1}
+        withDoodles
+        doodleSet="main"
       >
         <ArtworkGallery artworks={courseWorks} />
       </DiarySpread>

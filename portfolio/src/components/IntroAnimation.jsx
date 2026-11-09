@@ -140,7 +140,7 @@ function IntroAnimation({ onComplete }) {
             <span className="intro-animation__cover-kicker">ART APPRECIATION PORTFOLIO</span>
             <span className="intro-animation__title">
               Sincerely,
-              <span><HandwritingText tracking={-0.035}>Ahron</HandwritingText></span>
+              <span className="intro-animation__title-name"><HandwritingText tracking={-0.035}>Ahron</HandwritingText></span>
             </span>
             <span className="intro-animation__cover-note">
               
