@@ -2,12 +2,14 @@ import HandwritingText from "../components/HandwritingText";
 import { useCallback, useState } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import ArtworkViewer from "../components/ArtworkViewer";
+import PhotoJournal from "../components/PhotoJournal";
 import DetailDescription from "../components/DetailDescription";
 import { explorations } from "../data/portfolio";
 
 function ExplorationDetail() {
   const { explorationId } = useParams();
   const [lightboxArtwork, setLightboxArtwork] = useState(null);
+  const [journalStart, setJournalStart] = useState(null);
   const closeLightbox = useCallback(() => setLightboxArtwork(null), []);
   const currentIndex = explorations.findIndex((work) => work.id === explorationId);
   const exploration = explorations[currentIndex];
@@ -21,23 +23,24 @@ function ExplorationDetail() {
     : exploration.image
       ? [{ src: exploration.image, alt: exploration.alt || exploration.title }]
       : [];
-  const galleryImages = exploration.id === "photography-exploration"
+  const isPhotography = exploration.id === "photography-exploration";
+  const galleryImages = isPhotography
     ? outputImages.slice(0, 4)
     : outputImages;
   const processImages = exploration.processImages || [];
 
   function openLightbox(image, index) {
+    if (isPhotography) {
+      setJournalStart(index);
+      return;
+    }
+
     setLightboxArtwork({
       title: image.caption || `${exploration.title} · ${String(index + 1).padStart(2, "0")}`,
       image: image.src,
       alt: image.alt || exploration.title,
       medium: exploration.medium,
       description: image.caption || "",
-      videoSrc: image.videoSrc,
-      videoStartSeconds: image.videoStartSeconds,
-      videoUrl: image.videoUrl,
-      songTitle: image.songTitle,
-      songArtist: image.songArtist,
     });
   }
 
@@ -96,9 +99,6 @@ function ExplorationDetail() {
               {exploration.description && (
                 <DetailDescription text={exploration.description} />
               )}
-              {exploration.galleryInstructions && (
-                <p className="artwork-detail-description">{exploration.galleryInstructions}</p>
-              )}
               {(exploration.materials ||
                 exploration.tools ||
                 exploration.dateCreated ||
@@ -143,15 +143,13 @@ function ExplorationDetail() {
                   {exploration.dateCreated && (
                     <div>
                       <dt><HandwritingText>{exploration.dateCreatedLabel || "Date created"}</HandwritingText></dt>
-                      <dd>
-                        {exploration.dateCreated}
-                        {exploration.id === "photography-exploration" && (
-                          <span className="capture-dates-note">Photo capture dates are documented in the Appendices.</span>
-                        )}
-                      </dd>
+                      <dd>{exploration.dateCreated}</dd>
                     </div>
                   )}
                 </dl>
+              )}
+              {exploration.galleryInstructions && (
+                <p className="artwork-detail-description">{exploration.galleryInstructions}</p>
               )}
             </header>
 
@@ -222,12 +220,13 @@ function ExplorationDetail() {
           </span>
         </footer>
       </article>
-      <ArtworkViewer
-        key={lightboxArtwork?.image || "closed"}
-        artwork={lightboxArtwork}
-        onClose={closeLightbox}
-        showVideoPlaceholder={exploration.id === "photography-exploration"}
-      />
+      {isPhotography ? (
+        journalStart !== null && (
+          <PhotoJournal entries={galleryImages} initialIndex={journalStart} onClose={() => setJournalStart(null)} />
+        )
+      ) : (
+        <ArtworkViewer key={lightboxArtwork?.image || "closed"} artwork={lightboxArtwork} onClose={closeLightbox} />
+      )}
     </main>
   );
 }

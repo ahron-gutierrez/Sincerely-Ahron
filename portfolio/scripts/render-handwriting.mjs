@@ -10,6 +10,11 @@ const { chromium } = require(process.env.PLAYWRIGHT_MODULE || "playwright");
 const font = await readFile(new URL("../.private/FinalFontAhron-Regular.otf", import.meta.url));
 const output = new URL("../public/handwriting-text/", import.meta.url);
 await mkdir(output, { recursive: true });
+const journalOnly = process.argv.includes("--photo-journal");
+const manifestPath = new URL("../src/data/handwritingImages.json", import.meta.url);
+const existingManifest = journalOnly ? JSON.parse(await readFile(manifestPath, "utf8")) : null;
+const photoGallery = explorations.find(({ id }) => id === "photography-exploration");
+const journalLabels = photoGallery.images.flatMap(({ songTitle, captureDate }) => [songTitle, captureDate]);
 
 const navbarLabels = ["Home", "Part I", "Part II", "Reflection", "Appendices", "About"];
 const labels = [
@@ -57,13 +62,20 @@ function addRuns(texts, tracking = 0, split = false) {
     }
   }
 }
-addRuns([...labels, "Previous:", "Next:"]);
-addRuns(wrappedLabels, 0, true);
-addRuns(navbarLabels, 0.045);
-addRuns(["Sincerely,", "Ahron"], 0.02);
-addRuns(["NEW", "OLD"], 0.05);
-addRuns(["Ahron"], -0.035);
-addRuns(["sincerely, ahron"], 0.5 / 24);
+if (!journalOnly) {
+  addRuns([...labels, "Previous:", "Next:"]);
+  addRuns(wrappedLabels, 0, true);
+  addRuns(navbarLabels, 0.045);
+  addRuns(["Sincerely,", "Ahron"], 0.02);
+  addRuns(["NEW", "OLD"], 0.05);
+  addRuns(["Ahron"], -0.035);
+  addRuns(["sincerely, ahron"], 0.5 / 24);
+}
+addRuns(journalLabels, 0, true);
+addRuns([photoGallery.dateCreatedLabel, "Selection Process"]);
+if (existingManifest) {
+  for (const key of Object.keys(existingManifest.runs)) runs.delete(key);
+}
 
 const browser = await chromium.launch({ executablePath: process.env.CHROME_PATH });
 try {
@@ -99,7 +111,7 @@ try {
     });
     return { images, space };
   }, { fontData: font.toString("base64"), runs: [...runs] });
-  const manifest = {};
+  const manifest = existingManifest?.runs ?? {};
   const written = new Set();
   for (const { key, data, metrics } of images) {
     const id = createHash("sha256").update(key).digest("hex").slice(0, 12);
@@ -108,11 +120,13 @@ try {
     manifest[key] = [id, ...metrics];
   }
   await writeFile(
-    new URL("../src/data/handwritingImages.json", import.meta.url),
-    JSON.stringify({ space, runs: manifest }, null, 2) + "\n",
+    manifestPath,
+    JSON.stringify({ space: existingManifest?.space ?? space, runs: manifest }, null, 2) + "\n",
   );
-  for (const file of await readdir(output)) {
-    if (/^[a-f0-9]{12}\.png$/.test(file) && !written.has(file)) await unlink(new URL(file, output));
+  if (!journalOnly) {
+    for (const file of await readdir(output)) {
+      if (/^[a-f0-9]{12}\.png$/.test(file) && !written.has(file)) await unlink(new URL(file, output));
+    }
   }
 } finally {
   await browser.close();

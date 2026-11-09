@@ -24,8 +24,7 @@ export const appendixMedia = {
     { caption: "Final Output", src: "/appendices/crochet/final-output.jpg", alt: "Finished sunflower bookmark resting on a book" },
   ],
   pixel: [
-    { caption: "Uniform (Half)", src: "/appendices/pixel/1.png", alt: "Piskel screenshot showing the first pixel art drawing stage" },
-    { caption: "School Uniform (Whole)", src: "/appendices/pixel/2.png", alt: "Piskel screenshot showing the second pixel art drawing stage" },
+    { caption: "School Uniform", src: "/appendices/pixel/2.png", alt: "Piskel screenshot showing the first pixel art drawing stage" },
     { caption: "White Background", src: "/appendices/pixel/3.png", alt: "Piskel screenshot showing the third pixel art drawing stage" },
     { caption: "Face", src: "/appendices/pixel/4.png", alt: "Piskel screenshot showing the fourth pixel art drawing stage" },
     { caption: "Eye", src: "/appendices/pixel/5.png", alt: "Piskel screenshot showing the fifth pixel art drawing stage" },
@@ -36,6 +35,11 @@ export const appendixMedia = {
     { caption: "More Detailed Hair", src: "/appendices/pixel/10.png", alt: "Piskel screenshot showing the tenth pixel art drawing stage" },
     { caption: "More colors", src: "/appendices/pixel/11.png", alt: "Piskel screenshot showing the eleventh pixel art drawing stage" },
     { caption: "Finalization", src: "/appendices/pixel/12.png", alt: "Piskel screenshot showing the twelfth pixel art drawing stage" },
+  ],
+  photoSelection: [
+    { src: "/appendices/photography/amusement-park.jpg", alt: "Contact sheet of eight amusement park photos taken from different angles." },
+    { src: "/appendices/photography/concert.jpg", alt: "Contact sheet of concert photos showing different stage lights and views of the crowd." },
+    { src: "/appendices/photography/clouds-and-landscape.jpg", alt: "Contact sheet of eight landscape photos showing different views of the clouds and hills." },
   ],
   photographs: gallery.images.map(({ src, alt, captureDate, captureLocation, captureEvent }, index) => ({
     src,

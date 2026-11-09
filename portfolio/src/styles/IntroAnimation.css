@@ -153,8 +153,9 @@
   line-height: 0.96;
 }
 
-.intro-animation__title span {
-  margin-top: 3px;
+.intro-animation__title-name {
+  /* Scale the tuck with the lettering so it doesn't crowd the comma on mobile. */
+  margin-top: -0.19em;
   color: #f0d477;
   font-family: var(--handwriting);
   font-size: 1.3em;

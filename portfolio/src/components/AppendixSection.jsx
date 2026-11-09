@@ -1,7 +1,9 @@
 import HandwritingText from "./HandwritingText";
 import ArtworkViewer from "./ArtworkViewer";
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { appendixMedia } from "../data/appendixMedia";
+import { explorations } from "../data/portfolio";
 
 const chapters = [
   { id: "crochet", title: "Crochet (Sunflower Bookmark)", subtitle: "The Creation Process", index: "Crochet timeline" },
@@ -13,54 +15,28 @@ const practiceVideoEvents = new EventTarget();
 
 function AppendixSection() {
   const timeline = useRef(null);
-  const dialog = useRef(null);
-  const closeButton = useRef(null);
-  const [image, setImage] = useState(null);
   const [pixelImage, setPixelImage] = useState(null);
-  const [zoomed, setZoomed] = useState(false);
-  const { performance, crochet, pixel, photographs } = appendixMedia;
-  const pixelIndex = pixel.indexOf(image);
-  const viewingPixel = pixelIndex !== -1;
+  const { performance, crochet, pixel, photographs, photoSelection } = appendixMedia;
 
   useEffect(() => {
-    if (!("IntersectionObserver" in window)) return;
+    if (!("IntersectionObserver" in window) ||
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
     const observer = new IntersectionObserver((entries) => {
       for (const { isIntersecting, target } of entries) {
         if (!isIntersecting) continue;
         target.classList.add("scrap-chapter--revealed");
         observer.unobserve(target);
       }
-    }, { threshold: 0.08 });
-    timeline.current.querySelectorAll(".scrap-chapter").forEach((chapter) => observer.observe(chapter));
+    });
+    for (const chapter of timeline.current.querySelectorAll(".scrap-chapter")) {
+      if (chapter.getBoundingClientRect().top >= window.innerHeight) observer.observe(chapter);
+    }
     return () => observer.disconnect();
   }, []);
 
-  function openImage(item) {
-    if (pixel.includes(item)) {
-      setPixelImage(item);
-      return;
-    }
-    setImage(item);
-    setZoomed(false);
-    dialog.current.showModal();
-    if (pixel.includes(item)) closeButton.current.focus();
-  }
-
   function closePixelViewer() {
     setPixelImage(null);
-  }
-
-  function movePixel(direction) {
-    setImage((current) => {
-      const index = pixel.indexOf(current);
-      return index === -1 ? current : pixel[index + direction] ?? current;
-    });
-  }
-
-  function handleViewerKey(event) {
-    if (!viewingPixel || (event.key !== "ArrowLeft" && event.key !== "ArrowRight")) return;
-    event.preventDefault();
-    movePixel(event.key === "ArrowLeft" ? -1 : 1);
   }
 
   return (
@@ -68,12 +44,14 @@ function AppendixSection() {
       <div className="journal-page journal-page--content appendices-sheet appendices-intro-sheet">
         <header className="scrap-header">
         <div className="scrap-title-paper">
-          <svg className="scrap-flower" viewBox="0 0 70 96" fill="none" aria-hidden="true">
-            <path d="M37 42C41 62 20 71 14 91M30 71Q11 70 9 56Q26 53 30 71M35 62Q52 62 59 47Q43 45 35 62" fill="#a5a879" stroke="#727a4b" strokeWidth="1.4" />
-            <path d="M36 19C28 3 39 1 44 16C52 2 63 10 55 23C71 22 68 37 54 37C64 50 50 57 43 44C40 61 25 54 28 42C12 49 7 33 23 30C7 20 20 11 30 21C25 7 35 5 36 19Z" fill="#e2b75f" stroke="#a5803c" strokeWidth="1.3" />
-            <circle cx="39" cy="31" r="11" fill="#8a6640" stroke="#695336" strokeWidth="1.4" />
-            <path d="m33 28 3 2m5-5 2 3m-5 7 3 1m4-5 1 2m-14 1 2 2" stroke="#d9b16c" strokeWidth="1.4" strokeLinecap="round" />
-          </svg>
+          <Link className="scrap-flower" to="#appendix-crochet" aria-label="Jump to the crochet process" title="Jump to the crochet process">
+            <svg viewBox="0 0 70 96" fill="none" aria-hidden="true">
+              <path d="M37 42C41 62 20 71 14 91M30 71Q11 70 9 56Q26 53 30 71M35 62Q52 62 59 47Q43 45 35 62" fill="#a5a879" stroke="#727a4b" strokeWidth="1.4" />
+              <path d="M36 19C28 3 39 1 44 16C52 2 63 10 55 23C71 22 68 37 54 37C64 50 50 57 43 44C40 61 25 54 28 42C12 49 7 33 23 30C7 20 20 11 30 21C25 7 35 5 36 19Z" fill="#e2b75f" stroke="#a5803c" strokeWidth="1.3" />
+              <circle cx="39" cy="31" r="11" fill="#8a6640" stroke="#695336" strokeWidth="1.4" />
+              <path d="m33 28 3 2m5-5 2 3m-5 7 3 1m4-5 1 2m-14 1 2 2" stroke="#d9b16c" strokeWidth="1.4" strokeLinecap="round" />
+            </svg>
+          </Link>
           <p className="eyebrow">Part II</p>
           <h1 className="page-title">Appendices</h1>
           <p className="scrap-subtitle"><HandwritingText>Behind the Art</HandwritingText></p>
@@ -97,7 +75,7 @@ function AppendixSection() {
             {pixel.map((item) => (
               <li key={item.src}>
                 <figure className="scrap-screen">
-                  <ImageButton item={item} onOpen={openImage} />
+                  <ImageButton item={item} onOpen={setPixelImage} />
                   <figcaption><HandwritingText wrap>{item.caption}</HandwritingText></figcaption>
                 </figure>
               </li>
@@ -129,7 +107,11 @@ function AppendixSection() {
           <div className="scrap-photography">
             <figure className="scrap-contact scrap-taped">
               <div className="scrap-contact-grid">
-                {photographs.map((item) => <ImageButton item={item} key={item.src} onOpen={openImage} />)}
+                {photographs.map(({ src, alt }) => (
+                  <div className="scrap-image-button scrap-image-static" key={src}>
+                    <img src={src} alt={alt} loading="lazy" />
+                  </div>
+                ))}
               </div>
               <figcaption><HandwritingText>Selected Photographs</HandwritingText></figcaption>
             </figure>
@@ -148,52 +130,21 @@ function AppendixSection() {
                 ))}
               </dl>
             </section>
+            <section className="scrap-selection" aria-labelledby="scrap-selection-title">
+              <h3 id="scrap-selection-title"><HandwritingText>Selection Process</HandwritingText></h3>
+              <div className="scrap-selection-sheets">
+                {photoSelection.map(({ src, alt }) => (
+                  <figure className="scrap-selection-print scrap-taped" key={src}>
+                    <img src={src} alt={alt} loading="lazy" />
+                  </figure>
+                ))}
+              </div>
+            </section>
           </div>
         </Chapter>
         </div>
       </div>
 
-      <dialog
-        ref={dialog}
-        className={`scrap-lightbox${viewingPixel ? " scrap-lightbox--pixel" : ""}`}
-        aria-label={viewingPixel ? "Pixel art process viewer" : "Appendix image viewer"}
-        onKeyDown={handleViewerKey}
-        onClick={(event) => {
-          if (event.target === event.currentTarget) dialog.current.close();
-        }}
-        onClose={() => setImage(null)}
-      >
-        <div className="scrap-lightbox-inner">
-          <div className="scrap-lightbox-controls">
-            {viewingPixel ? (
-              <>
-                <span aria-live="polite" aria-atomic="true">
-                  <HandwritingText wrap>{image.caption}</HandwritingText>
-                </span>
-                <button type="button" onClick={() => movePixel(-1)} aria-disabled={pixelIndex === 0}>
-                  <HandwritingText>Previous</HandwritingText>
-                </button>
-                <button type="button" onClick={() => movePixel(1)} aria-disabled={pixelIndex === pixel.length - 1}>
-                  <HandwritingText>Next</HandwritingText>
-                </button>
-              </>
-            ) : (
-              <>
-                <span><HandwritingText wrap>{image?.caption}</HandwritingText></span>
-                <button type="button" onClick={() => setZoomed((value) => !value)} aria-pressed={zoomed}>
-                  <HandwritingText>{zoomed ? "Fit image" : "Zoom in"}</HandwritingText>
-                </button>
-              </>
-            )}
-            <button ref={closeButton} type="button" onClick={() => dialog.current.close()}><HandwritingText>Close</HandwritingText></button>
-          </div>
-          {image && (
-            <div className={`scrap-lightbox-image${zoomed ? " scrap-lightbox-image--zoomed" : ""}`} tabIndex={zoomed ? 0 : undefined}>
-              <img src={image.src} alt={image.alt} />
-            </div>
-          )}
-        </div>
-      </dialog>
       <ArtworkViewer
         artwork={pixelImage && { image: pixelImage.src, alt: pixelImage.alt, title: pixelImage.caption }}
         onClose={closePixelViewer}
@@ -205,11 +156,15 @@ function AppendixSection() {
 
 function Chapter({ index, note, preview, children }) {
   const { id, title, subtitle } = chapters[index];
+  const creationDate = id === "photography-exploration"
+    ? undefined
+    : explorations.find((entry) => entry.id === id)?.dateCreated;
   return (
     <section className={`scrap-chapter${preview ? " scrap-chapter--pixel" : ""}`} id={`appendix-${id}`} aria-labelledby={`appendix-${id}-title`}>
       <div className="scrap-chapter-copy">
         <span className="scrap-chapter-number" aria-hidden="true"><HandwritingText>{String(index + 1).padStart(2, "0")}</HandwritingText></span>
-        <h2 id={`appendix-${id}-title`}><HandwritingText wrap>{title}</HandwritingText></h2>
+        <h2 id={`appendix-${id}-title`} tabIndex={id === "crochet" ? -1 : undefined}><HandwritingText wrap>{title}</HandwritingText></h2>
+        {creationDate && <p className="scrap-chapter-date">Created {creationDate}</p>}
         {preview}
         <p className="scrap-chapter-subtitle"><HandwritingText wrap>{subtitle}</HandwritingText></p>
         <p className="scrap-chapter-note">{note}</p>
@@ -235,7 +190,7 @@ function PixelPreview({ items }) {
 
   return (
     <figure className="scrap-polaroid scrap-taped scrap-pixel-preview">
-      <div className="scrap-pixel-frames" role="img" aria-label="Slideshow of the 12 Piskel progress screenshots">
+      <div className="scrap-pixel-frames" role="img" aria-label={`Slideshow of the ${items.length} Piskel progress screenshots`}>
         {items.map((item, index) => (
           <img key={item.src} src={item.src} alt="" loading="lazy" className={index === frame ? "is-current" : undefined} />
         ))}

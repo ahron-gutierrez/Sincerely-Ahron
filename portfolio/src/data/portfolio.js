@@ -255,11 +255,11 @@ export const explorations = [
     experience: "old",
     subtitle: "A Collection of Moments",
     dateCreated: "November 2, 2026",
-    dateCreatedLabel: "Date created",
+    dateCreatedLabel: "Gallery Creation Date",
     medium: "Photography",
     introduction: "",
     description: "This interactive photo gallery features photographs I took during different events this year. Although they were not originally taken for this course, I still consider this activity a form of artistic exploration.",
-    galleryInstructions: "You may click on the photographs to view them and discover the songs I associate with each one.",
+    galleryInstructions: "Click a photograph to see its capture details and hear the song I paired with it. You can also find the dates and locations in the Appendices.",
     inspiration: "Add what inspired this exploration.",
     process: "Add notes about the creative process.",
     reflection: "Add what you learned, what challenged you, and how the experience felt.",
@@ -319,6 +319,28 @@ export const explorations = [
   },
 ];
 
-export const reflection = "";
+export const reflection = `When I enrolled this semester and saw Art Appreciation in my class schedule, I was like “no way…” I knew I wasn’t good at painting, drawing, or even sketching. I was doomed. Looking back, that was just me overthinking.
+
+In class, I remember that time when I was asked to answer questions like, “Is a human a work of art?” and “Is nature art?” I realized it wasn’t the kind of art class where you only paint or draw. Art Appreciation is also about observing, thinking, and finding meaning.
+
+Well, as an art class. Of course, we have to paint, draw, but it was filled with guidance.
+
+Even up to this day, I still can’t paint or draw perfectly, but that isn’t the point. It is about what I learned, how I struggled, and how I slowly changed throughout my art journey.
+
+Because…when I was younger, I enjoyed making things without worrying too much about how they would turn out. I drew stars with uneven sides, made paper airplanes, paper gears, and origami, then colored them with my little old crayons. I created and experimented simply because it was fun.
+
+As I grew older, I started overthinking my work. I worried about every flaw and felt that anything I submitted for class had to be perfect (I know it really wasn’t perfect). That pressure sometimes made it harder to enjoy creating. I felt like I wasn’t good enough, so I kept striving for perfection.
+
+Working on this portfolio and taking Art Appreciation helped me reconnect with the part of myself that used to create freely. I tried different forms of art, from handcrafts and music to photography and more. Some activities were unfamiliar, and I struggled while learning them. I even lost patience with some of them (especially the crochet). I made mistakes, practiced, and had moments when I wasn’t sure I could do them well. But those experiences taught me that trying something new is meaningful, even when the result isn’t perfect.
+
+I also began to see imperfections differently. A smudge, an uneven line, or an awkward detail does not always need to be fixed. Sometimes, it shows the process and the person behind the work. Art made entirely by AI, without human input, can look polished, but polish alone does not give it a human touch. The choices, effort, mistakes, and feelings I put into my work are part of what makes it mine. The special touch that their AI couldn’t copy (haha). The sincerity I put into each artwork makes it truly mine. And that, sincerely, is Sincerely, Ahron. (Pun intended)
+
+Through this journey, I realized that art does not have to meet everyone’s standards to matter. Yes, my art can be awful to someone’s eyes (it really is). But, it can be playful, quirky, and personal. I want to keep creating with more curiosity and less fear of getting things wrong.
+
+That’s why I made this portfolio feel a little messy and playful... in its descriptions, fonts, and reflections. I didn’t want everything to look too structured because that feels more like me. I’ve never been perfect, and I don’t want the portfolio to pretend otherwise.
+
+In this way, I am becoming a little more like my younger self again. The child who creates things just because it feels good to create something.
+
+I may still overthink sometimes, and I know I have more to learn. But this reminds me that growth does not mean becoming perfect. It means having the willingness to explore, make mistakes, and keep creating.`;
 
 export const signatureImage = "/signature.png";
