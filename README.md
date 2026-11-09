@@ -1,11 +1,3 @@
-# art-appreciation-portfolio
-GEARTS+: Art Appreciation Portfolio
+# Welcome to my Art Appreciation portfolio, **Sincerely, Ahron**. 
 
-The React + Vite app is in `portfolio/`. From the repository root, use:
-
-- `npm run dev` to start the development server
-- `npm run build` to create a production build
-- `npm run lint` to run Oxlint
-- `npm run preview` to preview a production build
-
-Dependencies are installed in `portfolio/`; run `npm install --prefix portfolio` if they are missing.
+This site is a  collection of the artworks, experiences, and lessons from my journey through the course.
