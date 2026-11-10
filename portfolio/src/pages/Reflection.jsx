@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import DiarySpread from "../components/DiarySpread";
-import { reflection } from "../data/portfolio";
+import HandwritingText from "../components/HandwritingText";
+import ReflectionMemoryPreview from "../components/ReflectionMemoryPreview";
+import { reflection, signatureImage } from "../data/portfolio";
 
 const highlightedPhrases = [
-  "I knew I wasn’t good at painting, drawing, or even sketching. I was doomed",
+  "I knew I wasn’t good at painting, drawing, or even sketching.",
   "Art Appreciation is also about observing, thinking, and finding meaning.",
   "It is about what I learned, how I struggled, and how I slowly changed",
   "art does not have to meet everyone’s standards to matter",
@@ -12,9 +14,72 @@ const highlightedPhrases = [
 ];
 
 const signoff = "Sincerely, Ahron";
-const emphasizedPhrases = [signoff, ...highlightedPhrases];
+const memories = {
+  "especially the crochet": {
+    id: "reflection-memory-crochet",
+    src: "/illustrations/reflection-crochet.webp",
+    alt: "Crochet sunflower bookmark.",
+  },
+  "trying something new": {
+    id: "reflection-memory-kalimba",
+    src: "/illustrations/reflection-kalimba.webp",
+    alt: "Thumbnail for Ahron’s kalimba performance.",
+  },
+  "In this way, I am becoming a little more like my younger self again.": {
+    id: "reflection-memory-childhood",
+    src: "/illustrations/reflection-childhood.webp",
+    alt: "A childhood photograph of Ahron in a scout uniform.",
+  },
+};
+const emphasizedPhrases = [...new Set([signoff, ...highlightedPhrases, ...Object.keys(memories)])];
 
-function renderParagraphText(paragraph) {
+function ReflectionMemory({ memory, activeMemory, setActiveMemory, children }) {
+  const isOpen = activeMemory?.memory.id === memory.id;
+
+  function open(anchor) {
+    setActiveMemory({ anchor, memory });
+  }
+
+  function close() {
+    setActiveMemory((current) => current?.memory.id === memory.id ? null : current);
+  }
+
+  function toggle(anchor) {
+    if (isOpen) close();
+    else open(anchor);
+  }
+
+  return (
+    <span
+      className="reflection-memory"
+      role="button"
+      tabIndex={0}
+      aria-expanded={isOpen}
+      aria-controls={isOpen ? memory.id : undefined}
+      aria-describedby={isOpen ? memory.id : undefined}
+      onPointerEnter={(event) => {
+        if (event.pointerType === "mouse") open(event.currentTarget);
+      }}
+      onPointerLeave={(event) => {
+        if (event.pointerType === "mouse" && !event.currentTarget.matches(":focus-visible")) close();
+      }}
+      onFocus={(event) => {
+        if (event.currentTarget.matches(":focus-visible")) open(event.currentTarget);
+      }}
+      onBlur={close}
+      onClick={(event) => toggle(event.currentTarget)}
+      onKeyDown={(event) => {
+        if (event.key !== "Enter" && event.key !== " ") return;
+        event.preventDefault();
+        if (!event.repeat) toggle(event.currentTarget);
+      }}
+    >
+      {children}
+    </span>
+  );
+}
+
+function renderParagraphText(paragraph, activeMemory, setActiveMemory) {
   return emphasizedPhrases.reduce((parts, phrase) => parts.flatMap((part) => {
     if (typeof part !== "string") return [part];
 
@@ -22,15 +87,23 @@ function renderParagraphText(paragraph) {
     return pieces.flatMap((piece, index) => {
       if (index === pieces.length - 1) return [piece];
 
-      const emphasis = phrase === signoff
-        ? <strong className="reflection-ink-signoff" key={index}><em>{phrase}</em></strong>
-        : <mark key={`${phrase}-${index}`}>{phrase}</mark>;
-      return [piece, emphasis];
+      const key = `${phrase}-${index}`;
+      if (phrase === signoff) {
+        return [piece, <strong className="reflection-ink-signoff" key={key}><em>{phrase}</em></strong>];
+      }
+
+      const content = highlightedPhrases.includes(phrase) ? <mark>{phrase}</mark> : phrase;
+      const memory = memories[phrase];
+      return [piece, memory ? (
+        <ReflectionMemory key={key} memory={memory} activeMemory={activeMemory} setActiveMemory={setActiveMemory}>
+          {content}
+        </ReflectionMemory>
+      ) : <mark key={key}>{phrase}</mark>];
     });
   }), [paragraph]);
 }
 
-function ReflectionParagraph({ paragraph }) {
+function ReflectionParagraph({ paragraph, activeMemory, setActiveMemory }) {
   const isChildhoodMemory = paragraph.startsWith("Because…when I was younger");
   const isPractice = paragraph.startsWith("Working on this portfolio");
   const isClosing = paragraph.startsWith("In this way, I am becoming");
@@ -50,13 +123,15 @@ function ReflectionParagraph({ paragraph }) {
           <path d="M35 11 45 5q3-2 1-3-1-1-3 0" />
         </svg>
       )}
-      {renderParagraphText(paragraph)}
+      {renderParagraphText(paragraph, activeMemory, setActiveMemory)}
     </p>
   );
 }
 
 function Reflection() {
   const [reflectionDraft, setReflectionDraft] = useState(reflection);
+  const [activeMemory, setActiveMemory] = useState(null);
+  const closeMemory = useCallback(() => setActiveMemory(null), []);
 
   return (
     <main className="site-page-shell">
@@ -78,11 +153,21 @@ function Reflection() {
             {reflection ? (
               <div className="reflection-text">
                 {reflection.split(/\n\s*\n/).map((paragraph) => (
-                  <ReflectionParagraph key={paragraph} paragraph={paragraph} />
+                  <ReflectionParagraph
+                    key={paragraph}
+                    paragraph={paragraph}
+                    activeMemory={activeMemory}
+                    setActiveMemory={setActiveMemory}
+                  />
                 ))}
-                <svg className="reflection-finishing-mark" viewBox="0 0 76 15" aria-hidden="true">
-                  <path d="M2 9c13-3 26-3 40-3m-30 6c6-1 13-2 19-2m23-3 6 1m-3-4-1 7" />
-                </svg>
+                <div className="letter-signature reflection-letter-signature">
+                  <span className="handwritten note-signoff">
+                    <HandwritingText tracking={0.02}>Sincerely,</HandwritingText>
+                  </span>
+                  <div className="signature-slot">
+                    <img className="handwriting-image scanned-signature" src={signatureImage} alt="Ahron" />
+                  </div>
+                </div>
               </div>
             ) : (
               <>
@@ -107,6 +192,7 @@ function Reflection() {
           </section>
         </div>
       </DiarySpread>
+      {activeMemory && <ReflectionMemoryPreview key={activeMemory.memory.id} {...activeMemory} onClose={closeMemory} />}
     </main>
   );
 }

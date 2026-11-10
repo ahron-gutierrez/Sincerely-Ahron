@@ -2309,6 +2309,12 @@ code {
   font-size: 1.08em;
 }
 
+.about-reflection .reflection-text p:nth-last-child(3),
+.about-reflection .reflection-text p:nth-last-child(2) {
+  color: var(--ink);
+  font-size: 1.08em;
+}
+
 .about-reflection .reflection-text .reflection-paragraph--closing {
   margin-block-start: 1.7em;
 }
@@ -2351,10 +2357,26 @@ code {
   text-underline-offset: 0.21em;
 }
 
+.reflection-letter-signature {
+  margin: 1.5rem 0 0 auto;
+}
+
+.reflection-letter-signature .note-signoff {
+  display: block;
+  margin: 0;
+  font-size: 24px;
+  transform: none;
+}
+
+.reflection-letter-signature .signature-slot {
+  margin-top: -4px;
+  border-bottom: 0;
+}
+
 .reflection-finishing-mark {
   display: block;
   width: 64px;
-  margin: 0.9rem 0 0 auto;
+  margin: 0.35rem auto 0;
   color: var(--olive);
   opacity: 0.65;
 }
@@ -2366,6 +2388,80 @@ code {
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
 }
+
+.reflection-memory {
+  cursor: url("/cursors/yellow-crayon.cur") 12 8, pointer;
+  text-decoration: underline dotted color-mix(in srgb, var(--olive) 60%, transparent);
+  text-underline-offset: 0.18em;
+}
+
+.reflection-memory:is(:hover, [aria-expanded="true"]) {
+  text-decoration-color: var(--olive);
+}
+
+.reflection-memory:focus-visible {
+  outline: 1px solid var(--olive);
+  outline-offset: 2px;
+}
+
+.reflection-memory-preview {
+  position: fixed;
+  z-index: 19;
+  aspect-ratio: 4 / 5;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.reflection-memory-folder {
+  position: relative;
+  display: grid;
+  width: 100%;
+  height: 100%;
+  place-items: center;
+  padding: 5px 5px 9px;
+  border: 1px solid var(--rule);
+  border-radius: 2px 4px 3px 2px;
+  background: var(--paper);
+  box-shadow: 1px 3px 7px rgba(57, 57, 46, 0.14);
+  transform: rotate(-3deg);
+}
+
+.reflection-memory-folder::after {
+  position: absolute;
+  inset: auto 1px 1px;
+  height: 16%;
+  background: color-mix(in srgb, var(--paper) 82%, var(--butter));
+  clip-path: polygon(0 0, 61% 8%, 66% 22%, 100% 20%, 100% 100%, 0 100%);
+  content: "";
+}
+
+.reflection-memory-folder img {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  background: var(--paper-light);
+  object-fit: contain;
+}
+
+@media (max-width: 640px) {
+  .reflection-memory-folder {
+    padding: 2px 2px 4px;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .reflection-memory-folder {
+    animation: reflection-memory-arrive 180ms ease-out both;
+  }
+}
+
+@keyframes reflection-memory-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(3px) rotate(-1deg);
+  }
+}
+
 .about-section {
   margin-top: 20px;
 }
