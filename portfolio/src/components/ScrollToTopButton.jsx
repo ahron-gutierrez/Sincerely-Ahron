@@ -1,5 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 
+function getScrollTarget(detailCopy) {
+  if (detailCopy && detailCopy.scrollHeight > detailCopy.clientHeight) {
+    const { overflowY } = window.getComputedStyle(detailCopy);
+    if (overflowY === "auto" || overflowY === "scroll") return detailCopy;
+  }
+
+  return document.scrollingElement;
+}
+
 function ScrollToTopButton({ routeKey }) {
   const [scrollDirection, setScrollDirection] = useState(null);
   const [flight, setFlight] = useState(null);
@@ -9,9 +18,7 @@ function ScrollToTopButton({ routeKey }) {
   useEffect(() => {
     const detailScroller = document.querySelector(".artwork-detail-copy");
     const updateVisibility = () => {
-      const scroller = detailScroller && detailScroller.scrollHeight > detailScroller.clientHeight
-        ? detailScroller
-        : document.scrollingElement;
+      const scroller = getScrollTarget(detailScroller);
       const scrollTop = scroller?.scrollTop ?? window.scrollY;
       const maxScroll = scroller === document.scrollingElement
         ? scroller.scrollHeight - window.innerHeight
@@ -41,10 +48,7 @@ function ScrollToTopButton({ routeKey }) {
   function scrollToEdge() {
     if (scrollFrame.current) return;
 
-    const detailScroller = document.querySelector(".artwork-detail-copy");
-    const target = detailScroller && detailScroller.scrollHeight > detailScroller.clientHeight
-      ? detailScroller
-      : document.scrollingElement;
+    const target = getScrollTarget(document.querySelector(".artwork-detail-copy"));
     if (!target) return;
 
     const start = target.scrollTop;

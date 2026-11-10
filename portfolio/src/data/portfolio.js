@@ -327,7 +327,7 @@ Well, as an art class. Of course, we have to paint, draw, but it was filled with
 
 Even up to this day, I still can’t paint or draw perfectly, but that isn’t the point. It is about what I learned, how I struggled, and how I slowly changed throughout my art journey.
 
-Because…when I was younger, I enjoyed making things without worrying too much about how they would turn out. I drew stars with uneven sides, made paper airplanes, paper gears, and origami, then colored them with my little old crayons. I created and experimented simply because it was fun.
+Because…when I was younger, I enjoyed making things without worrying too much about how they would turn out. I drew stars with uneven sides, made paper airplanes, paper gears, and origami, then colored them with my old crayons. I created and experimented simply because it was fun.
 
 As I grew older, I started overthinking my work. I worried about every flaw and felt that anything I submitted for class had to be perfect (I know it really wasn’t perfect). That pressure sometimes made it harder to enjoy creating. I felt like I wasn’t good enough, so I kept striving for perfection.
 

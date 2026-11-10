@@ -1981,6 +1981,21 @@ code {
   }
 }
 
+@media (max-width: 360px) {
+  .site-navbar {
+    padding-inline: 4px;
+  }
+
+  .site-navbar .navbar-links {
+    gap: 1px;
+  }
+
+  .site-navbar .navbar-links a {
+    padding-inline: 0;
+    font-size: 9px;
+  }
+}
+
 @media (max-height: 650px) and (min-width: 641px) {
   .site-navbar {
     --nav-height: 54px;
@@ -2058,6 +2073,27 @@ code {
 .home-shell--front:not(.home-shell--intro) {
   height: auto;
   min-height: calc(100svh - var(--nav-height) - 44px);
+}
+
+.home-shell--front .diary-spread {
+  min-height: min-content;
+}
+
+.home-shell--front .journal-page {
+  height: auto;
+  padding-bottom: clamp(40px, 4vw, 52px);
+}
+
+@media (min-width: 641px) and (max-height: 650px) {
+  .home-shell--front .diary-stage {
+    /* Keep both pages readable before the spread grows into document scroll. */
+    width: clamp(min(100%, 720px), calc((100svh - var(--nav-height) - 90px) * 1.55), min(100%, 920px));
+  }
+
+  .home-shell--front .diary-spread {
+    min-height: min(500px, calc(100svh - var(--nav-height) - 90px));
+    aspect-ratio: auto;
+  }
 }
 
 .home-welcome {
@@ -2974,13 +3010,6 @@ code {
   .home-shell--front .home-welcome {
     min-height: 0;
     justify-content: flex-start;
-  }
-}
-
-@media (max-width: 320px) {
-  html,
-  body {
-    min-width: 0;
   }
 }
 
@@ -4604,7 +4633,7 @@ button.artwork-detail-image {
 }
 
 .artwork-detail-shell--fit-content .artwork-detail-copy {
-  overflow: hidden;
+  overflow-y: auto;
 }
 
 .artwork-detail-shell--fit-content .collaboration-notes {
@@ -4729,6 +4758,12 @@ button.artwork-detail-image {
   box-sizing: border-box;
   padding-top: 6px;
   border-top: 1px solid var(--rule);
+}
+
+@media (max-width: 1440px) {
+  .site-frame:has(> .scroll-controls) .artwork-detail-footer {
+    padding-inline-end: 48px;
+  }
 }
 
 .artwork-detail-footer .artwork-page-navigation {
@@ -4937,6 +4972,46 @@ button.artwork-detail-image {
   }
 }
 
+@media (max-width: 760px), (max-height: 680px) {
+  .artwork-detail-shell {
+    flex: 1 1 auto;
+  }
+
+  .artwork-journal-page,
+  .artwork-detail-layout {
+    height: auto;
+    overflow: visible;
+  }
+
+  .artwork-detail-copy,
+  .artwork-detail-shell--fit-content .artwork-detail-copy {
+    overflow: visible;
+  }
+}
+
+@media (min-width: 761px) and (max-height: 680px) {
+  .artwork-detail-layout {
+    align-items: start;
+  }
+
+  .artwork-detail-layout .artwork-detail-image,
+  .exploration-detail-layout .exploration-gallery,
+  .exploration-detail-layout > .exploration-media-note {
+    height: clamp(240px, 62svh, 420px);
+    align-self: start;
+  }
+
+  .artwork-detail-layout .artwork-detail-image--empty {
+    min-height: 0;
+  }
+
+  .artwork-story-section p,
+  .collaboration-notes dd {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+}
+
 @media (max-width: 760px) {
   .site-frame--detail {
     height: auto;
@@ -4951,22 +5026,16 @@ button.artwork-detail-image {
 
   .artwork-detail-shell {
     width: calc(100% - 24px);
-    flex: 1 1 auto;
-    min-height: 0;
     margin: 12px auto;
   }
 
   .artwork-journal-page {
     display: flex;
-    height: auto;
-    min-height: 0;
     flex-direction: column;
-    overflow: visible;
     padding: 16px 14px 14px;
   }
 
   .artwork-detail-layout {
-    height: auto;
     flex: 0 0 auto;
     grid-template-columns: minmax(0, 1fr);
     gap: 16px;
@@ -4990,12 +5059,7 @@ button.artwork-detail-image {
   }
 
   .artwork-detail-copy {
-    overflow: visible;
     padding: 0;
-  }
-
-  .artwork-detail-shell--fit-content .artwork-detail-copy {
-    overflow: visible;
   }
 
   .artwork-detail-shell--fit-content .collaboration-notes dl {
@@ -5061,6 +5125,23 @@ button.artwork-detail-image {
 
 .diary-spread--reflection::before {
   left: 28%;
+}
+
+@media (min-width: 641px) and (max-width: 760px) {
+  .diary-spread--part-i { --narrow-book-spine: max(202px, 31%); }
+  .diary-spread--reflection { --narrow-book-spine: max(202px, 28%); }
+
+  .site-page-shell > .diary-spread:is(.diary-spread--part-i, .diary-spread--reflection) {
+    grid-template-columns: var(--narrow-book-spine) minmax(0, 1fr);
+  }
+
+  :is(.diary-spread--part-i, .diary-spread--reflection)::before {
+    left: var(--narrow-book-spine);
+  }
+
+  .diary-spread--part-i .page-title {
+    font-size: clamp(24px, 3.5vw, 27px);
+  }
 }
 
 .artwork-detail-footer .artwork-sequence-link,

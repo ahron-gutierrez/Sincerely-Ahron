@@ -4,18 +4,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import "../styles/IntroAnimation.css";
 
 function IntroAnimation({ onComplete }) {
-  const [diarySurface, setDiarySurface] = useState(() => {
-    return typeof document !== "undefined"
-      ? document.querySelector(".route-page .diary-spread")
-      : null;
-  });
-  const [bookBounds, setBookBounds] = useState(() => {
-    if (typeof document === "undefined") return null;
-    const surface = document.querySelector(".route-page .diary-spread");
-    if (!surface) return null;
-    const { left, top, width, height, bottom } = surface.getBoundingClientRect();
-    return { left, top, width, height, bottom };
-  });
+  const [bookBounds, setBookBounds] = useState(null);
   const [phase, setPhase] = useState("closed");
   const phaseRef = useRef("closed");
   const completed = useRef(false);
@@ -27,49 +16,33 @@ function IntroAnimation({ onComplete }) {
     setPhase(nextPhase);
   }
 
-  // Find diary surface if not yet present on initial render
-  useEffect(() => {
-    if (diarySurface) return undefined;
-
-    function findDiarySurface() {
-      const surface = document.querySelector(".route-page .diary-spread");
-      if (!surface) return;
-
-      observer.disconnect();
-      setDiarySurface(surface);
-    }
-
-    const observer = new MutationObserver(findDiarySurface);
-    observer.observe(document.querySelector(".route-page") ?? document.body, {
-      childList: true,
-      subtree: true,
-    });
-    findDiarySurface();
-
-    return () => observer.disconnect();
-  }, [diarySurface]);
-
-  // Keep book bounds accurate and properly aligned throughout
   useLayoutEffect(() => {
-    const surface = diarySurface || document.querySelector(".route-page .diary-spread");
-    if (surface && !diarySurface) {
-      setDiarySurface(surface);
-    }
+    const surface = document.querySelector(".route-page .diary-spread--home");
     if (!surface) return undefined;
 
     const measureBook = () => {
-      const { left, top, width, height, bottom } = surface.getBoundingClientRect();
-      setBookBounds({ left, top, width, height, bottom });
+      const bounds = surface.getBoundingClientRect();
+      const viewportHeight = document.documentElement.clientHeight;
+      // Leave room for the Open button even when the letter itself needs to scroll.
+      const buttonSpace = 70;
+      const edge = 12;
+      const height = Math.min(bounds.height, Math.max(0, viewportHeight - edge * 2 - buttonSpace));
+      const top = Math.max(edge, Math.min(bounds.top, viewportHeight - height - buttonSpace));
+      setBookBounds({ left: bounds.left, top, width: bounds.width, height });
     };
 
-    measureBook();
+    const frame = window.requestAnimationFrame(measureBook);
+    const observer = new ResizeObserver(measureBook);
+    observer.observe(surface);
     window.addEventListener("resize", measureBook);
     window.addEventListener("scroll", measureBook, { passive: true });
     return () => {
+      window.cancelAnimationFrame(frame);
+      observer.disconnect();
       window.removeEventListener("resize", measureBook);
       window.removeEventListener("scroll", measureBook);
     };
-  }, [diarySurface]);
+  }, []);
 
   useEffect(() => {
     return () => {
@@ -114,7 +87,7 @@ function IntroAnimation({ onComplete }) {
     }
   }
 
-  if (!diarySurface || !bookBounds) return null;
+  if (!bookBounds) return null;
 
   return createPortal(
     <div
@@ -157,7 +130,7 @@ function IntroAnimation({ onComplete }) {
         aria-label="Open my diary"
         style={{
           left: bookBounds.left + bookBounds.width / 2,
-          top: `min(${bookBounds.bottom + 18}px, calc(100% - 52px))`,
+          top: bookBounds.top + bookBounds.height + 18,
         }}
       >
         <HandwritingText>open</HandwritingText>
