@@ -11,8 +11,9 @@ const font = await readFile(new URL("../.private/FinalFontAhron-Regular.otf", im
 const output = new URL("../public/handwriting-text/", import.meta.url);
 await mkdir(output, { recursive: true });
 const journalOnly = process.argv.includes("--photo-journal");
+const footerOnly = process.argv.includes("--about-footer");
 const manifestPath = new URL("../src/data/handwritingImages.json", import.meta.url);
-const existingManifest = journalOnly ? JSON.parse(await readFile(manifestPath, "utf8")) : null;
+const existingManifest = journalOnly || footerOnly ? JSON.parse(await readFile(manifestPath, "utf8")) : null;
 const photoGallery = explorations.find(({ id }) => id === "photography-exploration");
 const journalLabels = photoGallery.images.flatMap(({ songTitle, captureDate }) => [songTitle, captureDate]);
 
@@ -62,7 +63,7 @@ function addRuns(texts, tracking = 0, split = false) {
     }
   }
 }
-if (!journalOnly) {
+if (!existingManifest) {
   addRuns([...labels, "Previous:", "Next:"]);
   addRuns(wrappedLabels, 0, true);
   addRuns(navbarLabels, 0.045);
@@ -71,8 +72,13 @@ if (!journalOnly) {
   addRuns(["Ahron"], -0.035);
   addRuns(["sincerely, ahron"], 0.5 / 24);
 }
-addRuns(journalLabels, 0, true);
-addRuns([photoGallery.dateCreatedLabel, "Selection Process"]);
+if (!footerOnly) {
+  addRuns(journalLabels, 0, true);
+  addRuns([photoGallery.dateCreatedLabel, "Selection Process"]);
+}
+if (!journalOnly) {
+  addRuns(["Check out my other works", "Blogspot", "GitHub"], 0.045);
+}
 if (existingManifest) {
   for (const key of Object.keys(existingManifest.runs)) runs.delete(key);
 }
@@ -123,7 +129,7 @@ try {
     manifestPath,
     JSON.stringify({ space: existingManifest?.space ?? space, runs: manifest }, null, 2) + "\n",
   );
-  if (!journalOnly) {
+  if (!existingManifest) {
     for (const file of await readdir(output)) {
       if (/^[a-f0-9]{12}\.png$/.test(file) && !written.has(file)) await unlink(new URL(file, output));
     }

@@ -1,7 +1,7 @@
 import HandwritingText from "../components/HandwritingText";
 import DiarySpread from "../components/DiarySpread";
 
-function About() {
+function AboutContent() {
   return (
     <main className="site-page-shell">
       <DiarySpread
@@ -89,6 +89,29 @@ function About() {
         </div>
       </DiarySpread>
     </main>
+  );
+}
+
+function About() {
+  return (
+    <>
+      <AboutContent />
+      <footer className="site-footer about-footer">
+        <span className="about-footer-title">
+          <HandwritingText tracking={0.045}>Check out my other works</HandwritingText>
+        </span>
+        <nav className="navbar-links" aria-label="Other works">
+          <a href="https://aeg-notes.blogspot.com/" target="_blank" rel="noopener noreferrer">
+            <HandwritingText tracking={0.045}>Blogspot</HandwritingText>
+            <span className="about-footer-caption">Poems &amp; other writing</span>
+          </a>
+          <a href="https://github.com/ahron-gutierrez" target="_blank" rel="noopener noreferrer">
+            <HandwritingText tracking={0.045}>GitHub</HandwritingText>
+            <span className="about-footer-caption">Code &amp; projects</span>
+          </a>
+        </nav>
+      </footer>
+    </>
   );
 }
 
