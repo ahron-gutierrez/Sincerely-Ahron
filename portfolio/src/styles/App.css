@@ -2281,45 +2281,82 @@ code {
 }
 
 .about-reflection {
-  position: relative;
-  padding: 1.15rem 1.2rem 1.35rem;
-  border: 1px solid color-mix(in srgb, var(--olive, #687343) 18%, transparent);
-  background:
-    repeating-linear-gradient(
-      to bottom,
-      transparent 0,
-      transparent 2.05rem,
-      color-mix(in srgb, var(--olive, #687343) 9%, transparent) 2.05rem,
-      color-mix(in srgb, var(--olive, #687343) 9%, transparent) 2.1rem
-    ),
-    color-mix(in srgb, var(--paper, #f8f3e7) 72%, white);
-  box-shadow: 2px 4px 0 color-mix(in srgb, var(--sunflower, #d6a83f) 16%, transparent);
+  max-width: 62ch;
+  margin-inline: auto;
 }
 
-.about-reflection::before,
-.about-reflection::after {
-  position: absolute;
-  width: 2.2rem;
-  height: 0.45rem;
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--sunflower, #d6a83f) 58%, transparent);
-  content: "";
-  opacity: 0.55;
-  transform: rotate(-6deg);
+.about-reflection h2 {
+  margin-block: 0.35rem 1.25rem;
+  font-size: clamp(25px, 3vw, 35px);
 }
 
-.about-reflection::before {
-  inset: -0.35rem auto auto 1.4rem;
-}
-
-.about-reflection::after {
-  inset: auto 1.3rem -0.3rem auto;
-  background: color-mix(in srgb, var(--olive, #687343) 45%, transparent);
-  transform: rotate(5deg);
+.about-reflection .reflection-text {
+  margin: 0;
+  line-height: 1.8;
+  text-align: start;
 }
 
 .about-reflection .reflection-text p {
-  margin: 0 0 1.15em;
+  margin: 0;
+}
+
+.about-reflection .reflection-text p + p {
+  margin-block-start: 1.15em;
+}
+
+.about-reflection .reflection-text p:first-child {
+  color: var(--ink);
+  font-size: 1.08em;
+}
+
+.about-reflection .reflection-text .reflection-paragraph--closing {
+  margin-block-start: 1.7em;
+}
+
+.reflection-doodle,
+.reflection-finishing-mark {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.reflection-doodle {
+  display: block;
+  width: clamp(34px, 7vw, 54px);
+  height: auto;
+  margin-block: 0.3em 0.1em;
+}
+
+.reflection-doodle--plane {
+  float: inline-end;
+  margin-inline-start: 0.65em;
+  color: var(--page-accent);
+  transform: rotate(-5deg);
+}
+
+.reflection-doodle--yarn {
+  float: inline-start;
+  margin-inline-end: 0.65em;
+  color: var(--olive);
+  transform: rotate(5deg);
+}
+
+.reflection-ink-signoff {
+  color: var(--olive);
+  font-size: 1.08em;
+  text-decoration: underline wavy color-mix(in srgb, var(--sunflower) 72%, transparent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.21em;
+}
+
+.reflection-finishing-mark {
+  display: block;
+  width: 64px;
+  margin: 0.9rem 0 0 auto;
+  color: var(--olive);
+  opacity: 0.65;
 }
 
 .about-reflection mark {
@@ -2329,18 +2366,6 @@ code {
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
 }
-
-
-@media (max-width: 640px) {
-  .about-reflection {
-    padding: 1rem 0.8rem 1.15rem;
-  }
-
-  .about-reflection .reflection-text p {
-    margin-bottom: 1em;
-  }
-}
-
 .about-section {
   margin-top: 20px;
 }
@@ -2438,12 +2463,6 @@ code {
 
 .about-page > .content-intro {
   margin-top: 14px;
-}
-
-.about-reflection {
-  margin-top: clamp(28px, 5vh, 48px);
-  padding-top: 20px;
-  border-top: 1px solid var(--rule);
 }
 
 @keyframes page-arrive {
@@ -2620,10 +2639,6 @@ code {
 .diary-spread--reflection .reflection-greeting,
 .diary-spread--reflection .reflection-signoff {
   color: var(--faded-sage);
-}
-
-.diary-spread--reflection .about-reflection {
-  border-top-color: color-mix(in srgb, var(--faded-sage) 34%, transparent);
 }
 
 .diary-spread--reflection .reflection-input {
