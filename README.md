@@ -6,9 +6,7 @@ I wanted it to feel like opening a diary. The paper pages, crayon marks, and han
 
 ## Live preview
 
-[![Sincerely, Ahron portfolio preview](portfolio/public/website-logo.png)](https://sincerely-ahron.vercel.app/)
-
-[Open the deployed portfolio](https://sincerely-ahron.vercel.app/)
+[Open the deployed portfolio:](https://sincerely-ahron.vercel.app/)
 
 ## Inside the scrapbook
 
