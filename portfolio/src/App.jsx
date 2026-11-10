@@ -1,6 +1,7 @@
 import HandwritingText from "./components/HandwritingText";
 import { useLayoutEffect, useRef, useState } from "react";
 import { BrowserRouter, Navigate, NavLink, Route, Routes, useLocation, useNavigationType } from "react-router-dom";
+import { Analytics } from "@vercel/analytics/react";
 
 import Appendices from "./pages/Appendices";
 import About from "./pages/About";
@@ -89,6 +90,7 @@ function App() {
     <BrowserRouter>
       <CrayonTrail />
       <PortfolioApp />
+      <Analytics />
     </BrowserRouter>
   );
 }
