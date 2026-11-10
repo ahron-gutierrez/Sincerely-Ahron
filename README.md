@@ -4,6 +4,12 @@ This is my Art Appreciation (GEARTS+) portfolio, presented as a digital scrapboo
 
 I wanted it to feel like opening a diary. The paper pages, crayon marks, and handwriting are a small tribute to the kid who used to make things just because it was fun.
 
+## Live preview
+
+[![Sincerely, Ahron portfolio preview](portfolio/public/website-logo.png)](https://sincerely-ahron.vercel.app/)
+
+[Open the deployed portfolio](https://sincerely-ahron.vercel.app/)
+
 ## Inside the scrapbook
 
 - **Home** (`/`) opens with the diary cover and a letter to the reader.
