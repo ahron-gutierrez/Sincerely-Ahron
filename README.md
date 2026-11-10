@@ -28,10 +28,3 @@ npm run dev
 ```
 
 From the same directory, run `npm run lint` to check the source, `npm run build` to create the production site, and `npm run preview` to preview that build locally.
-
-## Project files
-
-- [Portfolio content](portfolio/src/data/portfolio.js) contains the artwork entries and reflection text.
-- [Appendix media](portfolio/src/data/appendixMedia.js) lists the process documentation.
-- [Public assets](portfolio/public) contain images, illustrations, cursors, and rendered handwriting. The original handwriting font stays private.
-- [Vercel configuration](portfolio/vercel.json) lets direct links to portfolio pages work when opened or refreshed.
