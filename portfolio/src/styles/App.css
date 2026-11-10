@@ -2364,7 +2364,7 @@ code {
 .about-reflection .reflection-text {
   margin: 0;
   line-height: 1.8;
-  text-align: start;
+  text-align: justify;
 }
 
 .about-reflection .reflection-text p {
